@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <title>Moje Zdravlje</title>
+</head>
+
+<body>
+    <h5 class="text-center">Dobro Došli</h5>
+
+    <div class="text-center">
+        <img class="first" src="../images/bolnica.jpg" alt="hospital">
+    </div>
+
+    <form class="signup-form">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" class="form-control" id="password">
+        </div>
+        <input type="submit" class="btn btn-primary" value="submit">
+        <p class="registration"><a href="registration.html">Nemate račun?</a></p>
+        <p class="forget"><a href="password.html">Zaboravili ste lozinku?</a></p>
+        <div class="feedback"></div>
+        <div class="emailFeedback"></div>
+        <div class="passwordFeedback"></div>
+    </form>
+<script src="../javaScript/doctorLogin.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/laboratory.css">
+    <title>Moje Zdravlje</title>
+</head>
+<body>
+    <header class="header">
+        <div class="icon-container">
+          <div class="icon-item">
+              <img class="firts-icon" src="../images/herc.jpg" alt="Heart Icon">
+              <p class="firts-icon-text">Moje Zdravlje</p>
+          </div>
+          <div class="icon-item">
+              <i id="1" class="fa-solid fa-user"></i>
+              <p class="second-icon-text">Moj Profil</p>
+          </div>
+          <div class="icon-item">
+            <a href="https://www.zzjzfbih.ba/kontakt/"><i id="2" class="fa-solid fa-phone"></a></i>
+              <p class="third-icon-text"><a href="https://www.zzjzfbih.ba/kontakt/">Kontaktirajte nas</a></p>
+          </div>
+          <div class="icon-item">
+              <i id="3" class="fa-solid fa-info"></i>
+              <p class="forth-icon-text"><a href="https://www.zzjzfbih.ba/">O nama</a></p>
+          </div>
+      </div>
+    </header>
+    <body>
+
+      <h5 class="title">Laboratorija</h5>
+
+      <div class="col-md-12">
+        <table class="table table-hover table-white">
+         <thead>
+           <tr>
+             <th scope="col">Šifra Nalaza</th>
+             <th scope="col">Tip Nalaza</th>
+             <th scope="col">Vrsta uzorka</th>
+             <th scope="col">Datum i vrijeme obrade nalaza</th>
+             <th scope="col">Trenutno stanje (Status) </th>
+             <td slot="col">Završeno</td>
+           </tr>
+         </thead>
+         <tbody class="lab">
+           <tr>
+             <td>1A95BH9</td>
+             <td>HLA</td>
+             <td>Krv</td>
+             <td>31.12.2024 I  07:15</td>
+             <td class="status">U procesu</td>
+           </tr>
+           <tr>
+             <td>2CV10G7</td>
+             <td>CAP</td>
+             <td>Urin</td>
+             <td>4.2.2005 I 09:00</td>
+             <td class="status">U procesu</td>
+           </tr>
+           <tr>
+             <td>8N7N29BK0</td>
+             <td>HPV</td>
+             <td>Bris</td>
+             <td>4.2.2025 I 17:30</td>
+             <td class="status">Odbijeno</td>
+           </tr>
+           <tr>
+             <td>P14A2889</td>
+             <td>PAPA</td>
+             <td>Tumor markeri</td>
+             <td>3.8.2020 I 12:37</td>
+             <td class="status">Završeno</td>
+ 
+           <tbody>
+             <tr>
+               <td><input type="text" class="form-control" placeholder="Šifra Nalaza"></td>
+               <td><input type="text" class="form-control" placeholder="Dijagnoza"></td>
+               <td><input type="text" class="form-control" placeholder="Terapija"></td>
+               <td><input type="date" class="form-control"></td>
+               <td><input type="text" class="form-control" placeholder="Nalaz"></td>
+               <td><button class="btn btn-success" onclick="addRow(this)">Dodajte Vaš Nalaz</button></td> 
+             </tr>
+           </tbody>
+         </tbody>
+        </table>
+       </div>
+     </div>
+    </body>    
+    <footer>
+        <p class="clinics">Bolnička odjeljenja</p>
+        <ul class="clinic-list">
+          <li><a href="">Anesteziologija</a></li>
+          <li><a href="">Dermatologija</a></li>
+          <li><a href="">Endokrinologija</a></li>
+          <li><a href="">Gastroenterologija</a></li>
+          <li><a href="">Ginekologija</a></li>
+          <li><a href="">Infektologija</a></li>
+          <li><a href="">Kardiologija</a></li>
+          <li><a href="">Laboratorija</a></li>
+          <li><a href="">Neuropsihijatrija</a></li>
+          <li><a href="">Odjeljenje za liječenje neplodnosti</a></li>
+          <li><a href="">Opća i abdomenalna hirurgija</a></li>
+          <li><a href="">Oftalmologija</a></li>
+          <li><a href="">Ortopedija</a></li>
+          <li><a href="">Otorinolaringologija</a></li>
+          <li><a href="">Patologija</a></li>
+          <li><a href="">Pedijatrija</a></li>
+          <li><a href="">Radiologija i interventna radiologija</a></li>
+          <li><a href="">Reumatologija</a></li>
+          <li><a href="">Urgentno zbrinjavanje</a></li>
+          <li><a href="">Urologija</a></li>
+        </ul>
+        <p class="contact-us">Kontaktirajte nas </p>
+        <ul class="social-icons">
+          <li>
+            <i class="fa-brands fa-facebook"></i>
+            <p><a href="https://www.facebook.com/zzjz.fbih/">Facebook</a></p>
+          </li>
+          <li>
+            <i class="fa-brands fa-instagram"></i>
+            <p><a href="https://www.instagram.com/zzjz.fbih/">Instagram</a></p>
+          </li>
+          <li>
+            <i class="fa-solid fa-globe"></i>
+            <p><a href="https://www.zzjzfbih.ba/">Web site</a></p>
+          </li>
+        </ul>
+      </footer>
+      <script src="../javaScript/laboratory.js"></script>
+</body>
+</html>
