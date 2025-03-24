@@ -1,0 +1,75 @@
+body{
+    background: lightgreen;
+
+}
+form{
+    max-width: 300px;
+    margin: 40px auto;
+    background: white;
+    padding: 50px;
+}
+input{
+    display: block;
+    margin: 10px auto;
+    padding: 4px;
+}
+.success{
+    border: 2px solid limegreen;
+}
+.error{
+    border: 2px solid crimson;
+}
+h5{
+    color: white;
+}
+.registration{
+    max-width: -400px;
+    margin-left: 40px ;
+    display: inline;   
+}
+
+.forget{
+    max-width: 250px;
+    margin-left: 30px ;
+    display: inline;   
+}
+
+
+.registration a {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.registration a:hover {
+    text-decoration: underline; 
+}
+
+.forget a{
+    text-decoration: none; 
+    color: inherit;
+}
+
+.forget a:hover{
+    text-decoration: underline; 
+}
+
+.first {
+    display: block;
+    margin: 0 auto;
+    max-width: 100px; 
+    height: auto; 
+    margin-bottom: 20px; 
+}
+
+.passwordFeedback{
+    color: red;
+    display: block;
+    font-size: small;
+    text-align: center;
+}
+.emailFeedback{
+    color: red;
+    display: block;
+    font-size: small;
+    text-align: center;
+}

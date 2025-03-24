@@ -1,0 +1,69 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f8ff;
+    overflow: hidden;
+  }
+  .falling-text {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 450px; 
+    font-weight: bold; 
+    color: red; 
+    white-space: nowrap;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .falling-letter {
+    position: relative;
+    opacity: 0;
+    transform: translateY(-100px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  
+  .heart {
+    font-size: 100px;
+    position: relative;
+    animation: heartbeat 1s infinite;
+    margin-top: 50px;
+  }
+  .face {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    text-align: center;
+  }
+  .progress-container {
+    width: 80%;
+    max-width: 400px;
+    background-color: #ddd;
+    border-radius: 10px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 30px;
+    width: 0;
+    background-color: red;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+    font-weight: bold;
+  }
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  @keyframes fall {
+    from { transform: translateY(-100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }

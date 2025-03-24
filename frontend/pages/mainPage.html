@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <title>Moje Zdravlje</title>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="icon-container">
+      <div class="icon-item">
+        <img class="firts-icon" src="../images/herc.jpg" alt="Heart Icon">
+      </div>
+      <div class="icon-item">
+        <i id="1" class="fa-solid fa-user"></i>
+        <p class="second-icon-text"><a href="userProfile.html">Moj Profil</a></p>
+      </div>
+      <div class="icon-item">
+        <a href="https://www.zzjzfbih.ba/kontakt/"><i id="2" class="fa-solid fa-phone"></a></i>
+        <p class="third-icon-text"><a href="https://www.zzjzfbih.ba/kontakt/">Kontaktirajte nas</a></p>
+      </div>
+      <div class="icon-item">
+        <i id="3" class="fa-solid fa-info"></i>
+        <p class="forth-icon-text"><a href="https://www.zzjzfbih.ba/">O nama</a></p>
+      </div>
+    </div>
+  </header>
+
+  <body>
+    <h1 class="title">Glavni Menu</h1>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div id="firts-card" class="col1">
+        <div class="card">
+          <div class="card-body text-center">
+            <img class="first" src="../images/nalazi.jpg" class="card-img-top">
+            <p class="card-text card-small">
+              <b>Vaš Karton</b><br>
+              <span>Ovdje možete pronaći sve informacije o Vašem zdravlju.Od zadnjih nalaza,terapija,zakazanih
+                pregleda... Sve na dohvat ruke</span>
+                <br>
+                <a href="#healthCard copy" onclick="loadPage('healthCard'); return false;">
+                    <button class="btn btn-primary btn-sm">Kliknite Ovdje</button>
+                </a>                
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col2">
+        <div class="card">
+          <div class="card-body text-center">
+            <img class="second" src="../images/laboratorija.jpg" class="card-img-top">
+            <p class="card-text card-small">
+              <b>Laboratorija</b><br>
+              <span>Ovdje možete pronaći sve Vaše laboratorijske nalaze.Razvrstani su po kategorijama,a isti su
+                sortirani po datumima radi bolje preglednosti</span>
+                <br>
+                <a href="#laboratory" onclick="loadPage('laboratory'); return false;">
+                  <button class="btn btn-primary btn-sm">Kliknite Ovdje</button>
+                </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col3">
+        <div class="card">
+          <div class="card-body text-center">
+            <img class="third" src="../images/terapija.jpg" class="card-img-top">
+            <p>
+              <b>Terapija</b><br>
+              <span>Ovdje imate uvid u Vašu terapiju propisanu od strane Vašeg ljekara.</span>
+              <br>
+              <a href="#theraphy" onclick="loadPage('theraphy'); return false;">
+                <button class="btn btn-primary btn-sm">Kliknite Ovdje</button>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col4">
+        <div class="card">
+          <div class="card-body text-center">
+            <img class="forth" src="../images/pregledi.jpg" class="card-img-top">
+            <p>
+              <b>Pregledi</b><br>
+              <span>Ovdje imate uvid u sve Vaše medicinske preglede, kao i mogućnost zakazivanja istih.</span>
+              <br>
+              <a href="#medicalCheck" onclick="loadPage('medicalCheck'); return false;">
+                <button class="btn btn-primary btn-sm">Kliknite Ovdje</button>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <footer>
+    <p class="clinics">Bolnička odjeljenja</p>
+    <ul class="clinic-list">
+      <li><a href="">Anesteziologija</a></li>
+      <li><a href="">Dermatologija</a></li>
+      <li><a href="">Endokrinologija</a></li>
+      <li><a href="">Gastroenterologija</a></li>
+      <li><a href="">Ginekologija</a></li>
+      <li><a href="">Infektologija</a></li>
+      <li><a href="">Kardiologija</a></li>
+      <li><a href="">Laboratorija</a></li>
+      <li><a href="">Neuropsihijatrija</a></li>
+      <li><a href="">Odjeljenje za liječenje neplodnosti</a></li>
+      <li><a href="">Opća i abdomenalna hirurgija</a></li>
+      <li><a href="">Oftalmologija</a></li>
+      <li><a href="">Ortopedija</a></li>
+      <li><a href="">Otorinolaringologija</a></li>
+      <li><a href="">Patologija</a></li>
+      <li><a href="">Pedijatrija</a></li>
+      <li><a href="">Radiologija i interventna radiologija</a></li>
+      <li><a href="">Reumatologija</a></li>
+      <li><a href="">Urgentno zbrinjavanje</a></li>
+      <li><a href="">Urologija</a></li>
+    </ul>
+    <p class="contact-us">Kontaktirajte nas </p>
+    <ul class="social-icons">
+      <li>
+        <i class="fa-brands fa-facebook"></i>
+        <p><a href="https://www.facebook.com/zzjz.fbih/">Facebook</a></p>
+      </li>
+      <li>
+        <i class="fa-brands fa-instagram"></i>
+        <p><a href="https://www.instagram.com/zzjz.fbih/">Instagram</a></p>
+      </li>
+      <li>
+        <i class="fa-solid fa-globe"></i>
+        <p><a href="https://www.zzjzfbih.ba/">Web site</a></p>
+      </li>
+    </ul>
+  </footer>
+  <script src="../javaScript/main.js"></script>
+</body>
+
+</html>

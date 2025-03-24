@@ -1,0 +1,299 @@
+body{
+    background: #fff;
+}
+
+.personal-info{
+    border: 2px solid ;
+    height: 400px;
+    width: 450px;
+    padding-left: -50px;
+    margin-left: 20px;
+    margin-top: 50px;
+}
+
+.image-upload {
+    text-align: center;
+}
+
+.upload-box {
+    width: 100px;
+    height: 100px;
+    border: 2px dashed #aaa;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.upload-box img {
+    max-width: 100%;
+    max-height: 100%;
+    display: none; 
+}
+
+.upload-box .plus-icon {
+    font-size: 40px;
+    color: #aaa;
+    font-weight: bold;
+    position: absolute;
+}
+
+input[type="file"] {
+    display: none; 
+}
+
+#info {
+    width: 100%;
+   
+}
+
+.list-group {
+    width: 100%;
+    max-height: 100%;
+}
+
+.list-group-item {
+    width: 100%;
+    border-right: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    text-align: left; 
+    padding-left: 10px; 
+}
+
+.table-container {
+    margin-left: auto; 
+    margin-right: 0; 
+    width: fit-content; 
+}
+  
+.table-white {
+    border: 2px solid black; 
+}
+  
+.table-white th, .table-white td {
+    border: 1px solid black; 
+    padding: 8px;
+    text-align: center;
+}
+  
+
+.container-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+  
+.table-container {
+    margin-left: 20px; /* Podesi razmak između divova */
+    margin-top: 20px; /* Pomjeri tabelu malo dole */
+    margin-bottom: 40px;
+    margin-right: 100px;
+}
+  
+.table {
+    border: 2px solid black;
+    width: 100%;
+    margin-top: 100px;
+    margin-right: 400px;
+    position: relative;
+    right: 100px;
+}
+  
+.table th, .table td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+}
+  
+.doctor-comment {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.icons{
+    text-align: center;
+    color: white;
+}
+.icon-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;           
+    margin: 20px;                  
+    flex-wrap: nowrap;             
+}
+
+.icon-item {
+    display: flex;
+    flex-direction: column;        
+    align-items: center;          
+    text-align: center;
+    margin: 0 10px;                
+}
+
+.icon-item i, .icon-item img {
+    font-size: 30px;               
+    width: 50px;                   
+    height: 50px;                  
+    margin-bottom: 5px;            
+}
+
+.icon-item p {
+    margin: 0;
+    font-size: 12px;               
+    color: #333;
+}
+
+.user{
+    right: 1000px;;
+}
+
+.title{
+    text-align: center;
+}
+
+.first{
+    width: 100px;
+    height: auto;
+    
+}
+.col1{
+    margin-left: 180px; 
+    width: 500px;
+    height: auto;
+    border-radius: 50px; 
+    display: flex;
+    
+}
+
+.second{
+    width: 100px;
+    height: auto;
+
+}
+.col2{
+    width: 500px;
+    height: auto;
+    border-radius: 15px; 
+    display: flex;
+}
+.col3{
+    width: 500px;
+    height: auto;
+    border-radius: 15px; 
+    display: flex;
+    margin-left: 180px; 
+}
+.third{
+    width: 100px;
+    height: auto;   
+}
+
+.col4{
+    width: 500px;
+    height: auto;
+    border-radius: 15px; 
+    display: flex;
+}
+.forth{
+    width: 100px;
+    height: auto;   
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+  
+.clinic-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px; 
+    list-style: none; 
+    padding: 0;
+    margin: 0;
+}
+  
+.clinic-list li {
+    text-align: center; 
+    border: 1px solid #ccc; 
+    padding: 10px;
+    border-radius: 5px; 
+    background-color: #f9f9f9; 
+    transition: background-color 0.3s ease;
+}
+  
+.clinic-list li:hover {
+    background-color: #e0e0e0; 
+}
+  
+.clinic-list a {
+    text-decoration: none; 
+    color: #333; 
+    font-weight: bold;
+}
+  
+.clinic-list a:hover {
+    color: #007BFF; 
+}
+
+.clinics{
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom:50px ;
+}
+
+header, footer {
+    border-bottom: 2px solid white; 
+    border-top: 2px solid white;
+    padding: 5px 10px;
+    text-align: center;
+    background-color: #fff;
+    
+}
+.contact-us{
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom:50px ;
+}
+.social-icons {
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+    list-style: none; 
+    padding: 0;
+    margin: 0;
+}
+  
+.social-icons li {
+    text-align: center; 
+}
+  
+.social-icons i {
+    font-size: 24px; 
+    color: #007bff; 
+}
+  
+.social-icons a {
+    text-decoration: none; 
+    color: #333; 
+    font-size: 14px;
+    font-weight: bold;
+}
+  
+.social-icons a:hover {
+    color: #007bff; 
+}
+
+.second-icon-text{
+    text-decoration: underline;
+}
+
+.card-small{
+    font-size:medium;
+
+}
+
