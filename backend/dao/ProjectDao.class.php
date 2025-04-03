@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ ."/../config.php";
+// require_once __DIR__ ."/../config.php";
 
 class ProjectDao{
 
     protected $connection;
 
-    private $table;
+    protected $table;
 
     //CONSTRUCTOR OF THE CLASS
     public function __construct($table) {
@@ -21,13 +21,14 @@ class ProjectDao{
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                 ]
             );
+            echo "CONNECTED!";
             }
             catch (PDOExceprion $e) {
                 throw $e;
             }
     }
 
-}
+} 
 
 
 

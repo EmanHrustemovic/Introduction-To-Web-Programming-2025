@@ -12,7 +12,7 @@ class LaboratorijaDao extends ProjectDao{
     public function __construct() {
         parent::__construct('doktor');
 
-        try {
+       /* try {
             $servername='localhost';
             $db_name='moje_zdravlje';
             $username='root';
@@ -25,7 +25,7 @@ class LaboratorijaDao extends ProjectDao{
            $this->conn = "Connected successfully";
         } catch (PDOException $e) {
             $this->conn = "Connection failed: " . $e->getMessage();
-        }
+        }*/
     }
 
     public function pregledLaboratorije(){
