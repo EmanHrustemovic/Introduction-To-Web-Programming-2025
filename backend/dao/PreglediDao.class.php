@@ -1,18 +1,13 @@
-<?php
+<?php 
 
-echo __DIR__;
-require_once __DIR__ . "\ProjectDao.class.php";
+require_once '../config.php';
+require_once __DIR__ . '/ProjectDao.class.php';
 
-class PreglediDao extends ProjectDao
-{
-
-    private $conn;
+class PreglediDao extends ProjectDao {
     private $pdo;
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct('pregledi');
-
 
         try {
             $servername = 'localhost';
@@ -21,125 +16,55 @@ class PreglediDao extends ProjectDao
             $password = 'g3c9h.,1?0';
 
             $this->pdo = new PDO("mysql:host=$servername;dbname={$db_name}", $username, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
-            $this->conn = "Connected successfully";
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         } catch (PDOException $e) {
-            $this->conn = "Connection failed: " . $e->getMessage();
+            die("Connection failed: " . $e->getMessage());
         }
-
     }
 
-    public function getAllChecks()
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM " . $this->table);
-
+    public function getAllChecks() {
+        $stmt = $this->pdo->prepare("SELECT * FROM pregledi");
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function preglediPoId($id)
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM " .  $this->table . " WHERE id = :id" );
-
-        $stmt->bindParam(':id', $id);
-
+    public function preglediPoID($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM pregledi WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function dodajPregled($data)
-    {
-
-        var_dump('@@@@@@@@@@@@ data array', $data);
-
-        $sql = "INSERT INTO pregledi ( nazivPregleda, datum_vrijeme, status, opis, odjeljenje_id, preporuka )
-        VALUES(:nazivPregleda,:datum_vrijeme,:status,:opis,:odjeljenje_id,:preporuka)";
+    public function dodajPregled($data) {
+        $sql = "INSERT INTO pregledi (nazivPregleda, datum_vrijeme, status, opis, rezultati, odjeljenje_id, doktor_id, preporuka)
+                VALUES (:nazivPregleda, :datum_vrijeme, :status, :opis, :rezultati, :odjeljenje_id, :doktor_id, :preporuka)";
 
         $stmt = $this->pdo->prepare($sql);
-
-
-        $name = $data['nazivPregleda'];
-        $date = $data['datum_vrijeme'];
-        $status = $data['status'];
-        $description = $data['opis'];
-//        $results = $data['rezultati'];
-        $department = $data['odjeljenje_id'];
-//        $doctor_id = $data['doktor_id'];
-        $recommendation = $data['preporuka'];
-
-
-        $stmt->bindParam(':nazivPregleda', $name);
-        $stmt->bindParam(':datum_vrijeme', $date);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':opis', $description);
-//        $stmt->bindParam(':rezultati', $results);
-        $stmt->bindParam(':odjeljenje_id', $department);
-//        $stmt->bindParam(':doktor_id',$doctor_id);
-        $stmt->bindParam(':preporuka', $recommendation);
-
-
-        $stmt->execute();
-
-
+        return $stmt->execute($data);
     }
 
-    public function izmjeniPegled($id, $data)
-    {
-        $sql = "UPDATE pregledi SET id = :id ,nazivPregleda = :nazivPregleda ,datum_vrijeme = :datum_vrijeme,
-        status = :status,opis = :opis,rezultati = :rezultati,odjeljeneje_id = odjeljenje_id,
-        doktor_id = :doktor_id,preporuka = :preporuka ";
+    public function izmjeniPregled($id, $data) {
+        $sql = "UPDATE pregledi SET 
+                    nazivPregleda = :nazivPregleda, 
+                    datum_vrijeme = :datum_vrijeme, 
+                    status = :status, 
+                    opis = :opis, 
+                    rezultati = :rezultati, 
+                    odjeljenje_id = :odjeljenje_id, 
+                    doktor_id = :doktor_id, 
+                    preporuka = :preporuka 
+                WHERE id = :id";
 
         $stmt = $this->pdo->prepare($sql);
-
-        $id = $data[':id'];
-        $name = $data['nazivPregleda'];
-        $date = $data[':datum_vrijeme'];
-        $status = $data[':status'];
-        $description = $data[':opis'];
-        $results = $data[':rezultati'];
-        $department = $data[':odjeljenje_id'];
-        $doctor_id = $data[':doktor_id'];
-        $recommendation = $data[':preporuka'];
-
-        $stmt->bindParam(':id', $id, PARAM_INT);
-        $stmt->bindParam(':nazivPregleda', $name, PARAM_STR);
-        $stmt->bindParam(':datum_vrijeme', $date, PARAM_DATE);
-        $stmt->bindParam(':status', $status, PARAM_INT);
-        $stmt->bindParam(':opis', $description, PARAM_STR);
-        $stmt->bindParam(':rezultati', $results, PARAM_STR);
-        $stmt->bindParam(':odjeljenje_id', $department, PARAM_INT);
-        $stmt->bindParam(':doktor_id', $doctor_id, PARAM_INT);
-        $stmt->bindParam(':preporuka', $recommendation, PARAM_INT);
-
-        $stmt->execute();
-
-        $sql = "SELECT * FROM terapija WHERE terapija_id = : id";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt = bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
-
+        $data[':id'] = $id;
+        return $stmt->execute($data);
     }
 
-
-    public function obrišiPregled($id)
-    {
+    public function obrišiPregled($id) {
         $sql = "DELETE FROM pregledi WHERE id = :id";
-
         $stmt = $this->pdo->prepare($sql);
-        $stmt = bindParam(":id", $id, PARAM_INT);
-
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
-
-    public function getConn()
-    {
-        return $this->conn;
-    }
-
 }
-
 ?>

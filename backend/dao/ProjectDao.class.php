@@ -1,52 +1,29 @@
 <?php
 
-// require_once __DIR__ ."/../config.php";
+require_once __DIR__ . "/../services/config.php";
 
-class ProjectDao{
+class ProjectDao {
 
     protected $connection;
-
-    protected $table;
-
-    //CONSTRUCTOR OF THE CLASS
+    private $table;
+    
     public function __construct($table) {
         $this->table = $table;
 
         try {
-            $connection = new PDO(
-                "mysql:host = ". DB_HOST . ";db_name=" . DB_NAME . ";port=" . DB_PORT , 
+            $this->connection = new PDO(
+                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";port=" . DB_PORT,
                 DB_USER,
-                DB_PASSWORD , [
+                DB_PASSWORD,
+                [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                 ]
             );
-            echo "CONNECTED!";
-            }
-            catch (PDOExceprion $e) {
-                throw $e;
-            }
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
-
-} 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 ?>
