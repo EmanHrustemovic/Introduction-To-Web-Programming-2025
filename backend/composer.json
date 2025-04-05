@@ -19,5 +19,12 @@
     },
     "scripts": {
         "serve": "@php -S localhost:8080 -t public"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "App\\": "."
+
+        }
     }
 }
