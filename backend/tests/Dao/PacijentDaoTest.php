@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Factory;
-use App\dao\ZdravstveniKartonDao;
+use App\dao\PacijentDao;
 
 $dao = null;
 $faker = null;
@@ -9,20 +9,22 @@ $faker = null;
 $data = null;
 
 beforeAll(function () use (&$dao, &$faker) {
-    $dao = new ZdravstveniKartonDao();
+    $dao = new PacijentDao();
     $faker = Factory::create();
 });
 
-function zdravstveniKartonData(?\Faker\Generator $faker)
+function pacijentData(?\Faker\Generator $faker)
 {
     return [
-        'sifraBolesti' => $faker->unique()->text(6),
-        'nazivBolesti' => $faker->words(3, true),
-        'dijagnoza' => $faker->words(11,true),
-        'terapija' => $faker->words(11,true),
-        'JMBG' => $faker->randomNumber(6),
-        'pregledi_id' => null ,
-        'doktor_id' => null
+        'JMBG' => $faker->unique()->text(6),
+        'punoIme' => $faker->name,
+        'email' => $faker->email(),
+        'password' => $faker->password(12),
+        'grad' => $faker->city(),
+        'težina' => null,
+        'visina' => null,
+        'datumRođenja' => $faker->date(),
+        'nazivOsiguranika' => $faker->name()
 
     ];
 }
@@ -33,17 +35,17 @@ beforeEach(function () use (&$faker, &$bookingData) {
 
 
 
-test('can add a  new carton', function () use (&$dao, &$faker, &$data) {
+test('can add a  new patient', function () use (&$dao, &$faker, &$data) {
 
 
     $zdravstveniKartonData = pacijentData($faker);
-    $id = $dao->dodajKarton($zdravstveniKartonData);
+    $id = $dao->addPatient($zdravstveniKartonData);
 
     expect($id)->toBeGreaterThan(0);
 
-     $karton = $dao->kartoniPoID($id);
-     expect($karton)->not->toBeNull()
-         ->and($karton['nazivBolesti'])->toBe($zdravstveniKartonData['nazivBolesti']);
+     $patient = $dao->getPatientByID($id);
+     expect($patient)->not->toBeNull()
+         ;
 });
 
 

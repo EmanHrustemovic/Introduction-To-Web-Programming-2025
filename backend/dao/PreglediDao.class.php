@@ -1,7 +1,9 @@
-<?php 
+<?php
 
-require_once '../config.php';
-require_once __DIR__ . '/ProjectDao.class.php';
+namespace App\dao;
+
+//require_once '../services/config.php';
+require_once __DIR__ . '/ProjectDao.php';
 
 class PreglediDao extends ProjectDao {
     private $pdo;
@@ -9,17 +11,17 @@ class PreglediDao extends ProjectDao {
     public function __construct() {
         parent::__construct('pregledi');
 
-        try {
-            $servername = 'localhost';
-            $db_name = 'moje_zdravlje';
-            $username = 'root';
-            $password = 'g3c9h.,1?0';
-
-            $this->pdo = new PDO("mysql:host=$servername;dbname={$db_name}", $username, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-        } catch (PDOException $e) {
-            die("Connection failed: " . $e->getMessage());
-        }
+//        try {
+//            $servername = 'localhost';
+//            $db_name = 'moje_zdravlje';
+//            $username = 'root';
+//            $password = 'g3c9h.,1?0';
+//
+//            $this->pdo = new PDO("mysql:host=$servername;dbname={$db_name}", $username, $password);
+//            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//        } catch (PDOException $e) {
+//            die("Connection failed: " . $e->getMessage());
+//        }
     }
 
     public function getAllChecks() {
@@ -39,7 +41,7 @@ class PreglediDao extends ProjectDao {
         $sql = "INSERT INTO pregledi (nazivPregleda, datum_vrijeme, status, opis, rezultati, odjeljenje_id, doktor_id, preporuka)
                 VALUES (:nazivPregleda, :datum_vrijeme, :status, :opis, :rezultati, :odjeljenje_id, :doktor_id, :preporuka)";
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         return $stmt->execute($data);
     }
 

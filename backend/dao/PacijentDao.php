@@ -1,26 +1,27 @@
-<?php 
+<?php
+namespace App\dao;
 
-require_once '../config.php';
-require_once __DIR__ . '/ProjectDao.class.php';
+//require_once '../config.php';
+//require_once __DIR__ . '/ProjectDao.class.php';
 
 class PacijentDao extends ProjectDao {
 
     private $pdo;
 
     public function __construct() {
-        parent::__construct('pacijent');
+        parent::__construct('pacijent_info');
 
-        try {
-            $servername = 'localhost';
-            $db_name = 'moje_zdravlje';
-            $username = 'root';
-            $password = 'g3c9h.,1?0';
-
-            $this->pdo = new PDO("mysql:host=$servername;dbname=$db_name", $username, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-        } catch (PDOException $e) {
-            die("Connection failed: " . $e->getMessage());
-        }
+//        try {
+//            $servername = 'localhost';
+//            $db_name = 'moje_zdravlje';
+//            $username = 'root';
+//            $password = 'g3c9h.,1?0';
+//
+//            $this->pdo = new PDO("mysql:host=$servername;dbname=$db_name", $username, $password);
+//            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//        } catch (PDOException $e) {
+//            die("Connection failed: " . $e->getMessage());
+//        }
     }
 
     public function getAllPatients() {
@@ -37,20 +38,18 @@ class PacijentDao extends ProjectDao {
     }
 
     public function addPatient($data) {
-        $sql = "INSERT INTO pacijent (JMBG, punoIme, email, password, grad, težina, visina, datumRođenja, nazivOsiguranika) 
-                VALUES (:JMBG, :punoIme, :email, :password, :grad, :težina, :visina, :datumRođenja, :nazivOsiguranika)";
+        $sql = 'INSERT INTO pacijent (JMBG, punoIme, email, password, grad, težina, visina, datumRođenja, nazivOsiguranika) VALUES (:JMBG, :punoIme, :email, :password, :grad, :težina, :visina, :datumRođenja, :nazivOsiguranika)';
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         return $stmt->execute($data);
     }
 
     public function updatePatient($id, $data) {
-        $sql = "UPDATE pacijent SET punoIme = :punoIme, email = :email, password = :password, grad = :grad, 
+        $sql = 'UPDATE pacijent SET punoIme = :punoIme, email = :email, password = :password, grad = :grad, 
                 težina = :težina, visina = :visina, datumRođenja = :datumRođenja, nazivOsiguranika = :nazivOsiguranika 
-                WHERE JMBG = :JMBG";
+                WHERE JMBG = :JMBG';
 
         $stmt = $this->pdo->prepare($sql);
-        $data['JMBG'] = $id;
         return $stmt->execute($data);
     }
 

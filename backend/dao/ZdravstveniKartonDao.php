@@ -2,7 +2,8 @@
 namespace App\dao;
 
 //require_once '../config.php';
-//require_once __DIR__ . '/ProjectDao.php';
+require_once __DIR__ . '/ProjectDao.php';
+
 
 class ZdravstveniKartonDao extends ProjectDao {
     private $pdo;
@@ -20,7 +21,7 @@ class ZdravstveniKartonDao extends ProjectDao {
 
 
     public function dodajKarton($data) {
-        $sql = "INSERT INTO zdravstveniKarton (sifraBolesti, nazivBolesti, dijagnoza, terapija, JMBG, pregledi_id, doktor_id) VALUES (:sifraBolesti, :nazivBolesti, :dijagnoza, :terapija, :JMBG, :pregledi_id, :doktor_id)";
+        $sql = "INSERT INTO zdravstveniKarton (sifraBolesti, nazivBolesti, dijagnoza, terapija,  pregledi_id, doktor_id) VALUES (:sifraBolesti, :nazivBolesti, :dijagnoza, :terapija,  :pregledi_id, :doktor_id)";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute($data);

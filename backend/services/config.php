@@ -7,7 +7,7 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);  //Svi errori osim NOTICE ( 
 
 //DATABASE Credential settings :
 
-define('DB_NAME', 'moje_zdravlje');
+define('DB_NAME', 'moje_zdravlje_a');
 define('DB_PORT' , 3306);
 define('DB_USER' , 'root');
 define('DB_PASSWORD','g3c9h.,1?0');
