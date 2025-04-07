@@ -17,22 +17,24 @@ form.addEventListener('submit',e=>{
         feedback.textContent="Dobro Došli !!";
         idFeedback.textContent="";
         phoneFeedback.textContent="";
-    }
-    else if(true){
-        if(idPattern.test(id) && id.length==13){
-            idFeedback.textContent=" ";
-        }else{
-            idFeedback.textContent="JMBG se sastoji od 13 brojeva !";
-        }
-        if(phonePattern.test(phone)){
-            phoneFeedback.textContent=" ";
-        }else{
-            phoneFeedback.textContent="Neispravan format broja .";
-        }
-    }else{
-        feedback.textContent="Žao nam je,oporavak Vaše šifre nije uspio.";
 
+        setTimeout(() => {
+            window.location.href = "login.html"; 
+        }, 1500); 
+    } else {
+        if(!idPattern.test(id) || id.length !== 13){
+            idFeedback.textContent="JMBG se sastoji od 13 brojeva !";
+        } else {
+            idFeedback.textContent="";
+        }
+        if(!phonePattern.test(phone)){
+            phoneFeedback.textContent="Neispravan format broja.";
+        } else {
+            phoneFeedback.textContent="";
+        }
+        feedback.textContent="Žao nam je, oporavak Vaše šifre nije uspio.";
     }
+
 });
 
 
