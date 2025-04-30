@@ -9,7 +9,63 @@ require_once 'services/config.php';
 require_once __DIR__ . '/ProjectDao.php';
 
 class LaboratorijaDao extends ProjectDao {
+    public function __construct() {
+        parent::__construct('laboratorija'); 
+    }
 
+    public function pregledLaboratorije() {
+        $stmt = $this->connection->prepare("SELECT * FROM laboratorija");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function laboratorijaPoId($id) {
+        $stmt = $this->connection->prepare("SELECT * FROM laboratorija WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    public function addLaboratory($sifraNalaza, $tipNalaza, $vrsta_uzorka, $datum_obrade, $status, $pregledi_id) {
+        $sql = "INSERT INTO laboratorija (sifraNalaza, tipNalaza, vrsta_uzorka, datum_obrade, status, pregledi_id) 
+                VALUES (:sifraNalaza, :tipNalaza, :vrsta_uzorka, :datum_obrade, :status, :pregledi_id)";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(':sifraNalaza', $sifraNalaza);
+        $stmt->bindParam(':tipNalaza', $tipNalaza);
+        $stmt->bindParam(':vrsta_uzorka', $vrsta_uzorka);
+        $stmt->bindParam(':datum_obrade', $datum_obrade);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':pregledi_id', $pregledi_id);
+
+        $stmt->execute();
+    }
+
+    public function updateLaboratory($id, $data) {
+        $sql = "UPDATE laboratorija SET sifraNalaza = :sifraNalaza, tipNalaza = :tipNalaza,
+                    vrsta_uzorka = :vrsta_uzorka, datum_obrade = :datum_obrade,
+                    status = :status, pregledi_id = :pregledi_id
+                WHERE id = :id";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindParam(':sifraNalaza', $data->sifraNalaza);
+        $stmt->bindParam(':tipNalaza', $data->tipNalaza);
+        $stmt->bindParam(':vrsta_uzorka', $data->vrsta_uzorka);
+        $stmt->bindParam(':datum_obrade', $data->datum_obrade);
+        $stmt->bindParam(':status', $data->status);
+        $stmt->bindParam(':pregledi_id', $data->pregledi_id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    public function deleteLaboratory($id) {
+        $stmt = $this->connection->prepare("DELETE FROM laboratorija WHERE id = :id");
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+    
+    /*
     private $conn;
     private $pdo;
 
@@ -91,5 +147,5 @@ class LaboratorijaDao extends ProjectDao {
     public function getConn() {
         return $this->conn;
     }
+    */
 }
-

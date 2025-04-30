@@ -1,18 +1,35 @@
 <?php
 
-require_once '../dao/LaboratorijaDao.php';
+namespace App\services;
+
+require_once __DIR__ . '/ProjectService.php';  
+require_once __DIR__ . '/../dao/LaboratorijaDao.php';  
+
+use App\dao\LaboratorijaDao;
 
 class LaboratorijaService extends ProjectService {
-    
+
+    public function __construct() {
+        $dao = new LaboratorijaDao();
+        parent::__construct($dao);  
+    }
+
+    public function getByLabID($id) {
+        return $this->dao->laboratorijaPoId($id);
+    }
+}
+    /*
+
+    private $dao;
+
     public function __construct(){
 
-        $dao = new LaboratorijaDao();
-        parent::__construct($dao);
+        $this->dao = new LaboratorijaDao();
     }
 
     public function pregledLaboratorije(){
         
-        return $this->dao->pregledLaboratorije();
+         $this->dao->pregledLaboratorije();
     } 
 
     public function laboratorijaPoId($id){
@@ -20,10 +37,11 @@ class LaboratorijaService extends ProjectService {
         return $this->dao->laboratorijaPoId($id);
     }
 
-    public function addLaboratory($data){
+    public function addLaboratory($sifraNalaza, $tipNalaza, $vrsta_uzorka, $datum_obrade, $status, $pregledi_id) {
 
-        return $this->dao->addLaboratory($data);
+        $this->dao->addLaboratory($sifraNalaza, $tipNalaza, $vrsta_uzorka, $datum_obrade, $status, $pregledi_id);
     }
+
 
     public function updateLaboratory($id, $data){
 
@@ -34,7 +52,5 @@ class LaboratorijaService extends ProjectService {
         
         return $this->dao->deleteLaboratory($id);
     }
-
-}
-
+*/
 ?>

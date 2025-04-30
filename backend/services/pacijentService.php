@@ -1,13 +1,29 @@
 <?php
+namespace App\services;
 
-require_once '../dao/PacijentDao.php';
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/PacijentDao.php';
+
+use App\dao\PacijentDao;
 
 class PacijentService extends ProjectService {
     
+    public function __construct() {
+        $dao = new PacijentDao();
+        parent::__construct($dao);  
+    }
+
+    public function getByPatientID($id) {
+        return $this->dao->getPatientByID($id);
+    }
+
+    /*
+    private $dao;
+    
     public function __construct(){
 
-        $dao = new PacijentDao();
-        parent::__construct($dao);
+        $this->dao = new PacijentDao();
+
     }
 
     public function getAllPatients(){
@@ -20,9 +36,9 @@ class PacijentService extends ProjectService {
         return $this->dao->getPatientByID($id);
     }
 
-    public function addPatient($data){
+    public function addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika){
 
-        return $this->dao->addPatient($data);
+        $this->dao->addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika);
     }
 
     public function updatePatient($id, $data){
@@ -34,5 +50,22 @@ class PacijentService extends ProjectService {
 
         return $this->dao->deletePatient($id);
     }
+
+
+    public function insert($data) {
+        $data = iterator_to_array($data);
+        var_dump($data);
+        $columns = implode(", ", array_keys($data));
+        $placeholders = ":" . implode(", :", array_keys($data));
+
+        var_dump($columns);
+        var_dump($placeholders);
+        die();
+
+        
+        $sql = "INSERT INTO " . $this->table . " ($columns) VALUES ($placeholders)";
+        $stmt = $this->connection->prepare($sql);
+        return $stmt->execute($data);
+    }
+    */ 
 }
-?>

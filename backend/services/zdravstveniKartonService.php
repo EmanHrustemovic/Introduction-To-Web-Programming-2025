@@ -2,15 +2,28 @@
 
 namespace App\services;
 
-use App\dao\kartonService;
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/ZdravstveniKartonDao.php';
 
-class kartonService {
+use App\dao\ZdravstveniKartonDao;
 
+class ZdravstveniKartonService extends ProjectService {
+
+    public function __construct() {
+        $dao = new ZdravstveniKartonDao();
+        parent::__construct($dao);
+    }
+
+    public function getByMedicalRecordID($id) {
+        return $this->dao->kartoniPoID($id);
+    }
+    
+    /*
     private $dao;
 
     public function __construct(){
 
-        $this -> dao = new ZdravstveniKartontDao();
+        $this -> dao = new ZdravstveniKartonDao();
 
     }
 
@@ -29,14 +42,14 @@ class kartonService {
         return $this->dao->izmjeniKarton($id,$data);
     }
 
-    public function dodajKarton($data){
+    public function dodajKarton($id,$sifraBolesti,$nazivBolesti,$dijagnoza,$terapija,$pacijent_id,$pregledi_id,$doktor_id){
 
-        return $this->dao->dodajKarton($data);
+       return $this->dao->dodajKarton($id,$sifraBolesti,$nazivBolesti,$dijagnoza,$terapija,$pacijent_id,$pregledi_id,$doktor_id);
     }
 
-    public function obrišiKarton($id){
+    public function obrisiKarton($id){
 
-        return $this->dao->obrišiKaton($id);
+        return $this->dao->obrisiKarton($id);
     }
+    */
 }
-?>

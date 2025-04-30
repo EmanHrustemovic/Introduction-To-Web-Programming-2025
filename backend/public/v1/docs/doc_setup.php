@@ -11,7 +11,7 @@
  *         )
  *     ),
  *     @OA\Server(
- *         url="http://localhost/sdp/backend",
+ *         url="http://backend.app",
  *         description="API server"
  *     ),
  *     @OA\Components(

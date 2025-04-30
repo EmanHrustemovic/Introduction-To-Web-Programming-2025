@@ -1,19 +1,35 @@
 <?php
 
-require_once '../dao/TerapijaDao.php';
+namespace App\services;
 
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/TerapijaDao.php';
 
-class TerapijaServices extends ProjectService{
+use App\dao\TerapijaDao;
+
+class TerapijaServices extends ProjectService {
+
+    public function __construct() {
+        $dao = new TerapijaDao();
+        parent::__construct($dao);
+    }
+
+    public function getByTherapyID($id) {
+        return $this->dao->getTherapyByID($id);
+    }
+
+    /*
+
+    private $dao;
 
     public function __construct(){
 
-        $dao = new PacijentDao();
-        parent::__construct($dao);
+        $this -> dao = new TerapijaDao();
     }
 
     public function getAllTherapy(){
 
-        return $this->dao->getAllTherapy();
+        $this->dao->getAllTherapy();
     }
 
     public function getTherapyByID($id){
@@ -21,14 +37,14 @@ class TerapijaServices extends ProjectService{
         return $this->dao->getTherapyByID($id);
     }
 
-    public function addTherapy($data){
+    public function addTherapy($id,$terapija_id,$vrsta,$doza_i_uputa,$trajanje,$kontrola,$doktor_id, $pregledi_id){
 
-        return $this->dao->addTherapy($data);
+        $this->dao->addTherapy($id,$terapija_id,$vrsta,$doza_i_uputa,$trajanje,$kontrola,$doktor_id, $pregledi_id);
     }
 
     public function updateTherapy($id, $data){
 
-        return $this->updateTherapy($id,$data);
+        return $this->dao->updateTherapy($id,$data);
     }
 
     public function deleteTherapy($id){
@@ -36,6 +52,5 @@ class TerapijaServices extends ProjectService{
         return $this->dao->deleteTherapy($id);
 
     }
+    */
 }
-
-?>

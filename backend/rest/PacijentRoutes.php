@@ -1,11 +1,10 @@
 <?php
 
 require_once __DIR__ . '/../dao/PacijentDao.php';
-require_once __DIR__ . '/../services/pacijentService.php';
+require_once __DIR__ . '/../services/PacijentService.php';
 
 use App\dao\PacijentDao;
-use App\services\pacijentService;
-
+use App\services\PacijentService;
 
 Flight::route('GET /connection-check' ,function(){
     
@@ -26,15 +25,14 @@ Flight::route('GET /connection-check' ,function(){
  *     )
  * )
  */
+Flight::route('GET /patient', function() {
+    $service = new PacijentService();
+    $patients = $service->getAll();
 
-Flight::route('GET /patient',function(){
 
-    $dao = new PacijentDao();
-    $patients = $dao -> getAllPatients();
     Flight::json($patients);
 
-    //RADI 
-
+    Flight::json(['message' => 'Lista svih pacijenata je uspješno učitana.']);
 });
 
 /**
@@ -59,14 +57,17 @@ Flight::route('GET /patient',function(){
  *     )
  * )
  */
+Flight::route('GET /patient/@id', function($id) {
+    $service = new PacijentService();
+    
+    $patient = $service->getById($id);
 
-Flight::route('GET /patient/@id' , function($id){
-
-    $dao = new PacijentDao();
-    $patient = $dao -> getPatientByID($id);
-    Flight::json($patient);
-
-    //RADI 
+    if ($patient) {
+        Flight::json($patient);
+        Flight::json(['message' => 'Pacijent pronađen po ID-u.']);
+    } else {
+        Flight::json(['message' => 'Pacijent nije pronađen.'], 404);
+    }
 });
 
 /**
@@ -89,29 +90,17 @@ Flight::route('GET /patient/@id' , function($id){
  *     ),
  *     @OA\Response(
  *         response=200,
- *         description="Pacijent uspiješno dodan u bazu."
+ *         description="Pacijent uspiješno dodat u bazu."
  *     )
  * )
  */
+Flight::route('POST /patient/add', function() {
+    $data = Flight::request()->data->getData();
 
-Flight::route('POST /patient/add',function(){
-    $data = Flight::request()->data;
-
-    $pacijent_id =$data -> pacijent_id;
-    $JMBG = $data -> JMBG;
-    $grad = $data -> grad;
-    $tezina = $data -> tezina;
-    $visina = $data -> visina;
-    $datumRodenja = $data -> datumRodenja;
-    $nazivOsiguranika = $data -> nazivOsiguranika;
-
-    $service = new pacijentService();
-    $new_patient = $service->addPatient($pacijent_id,$JMBG,$grad,$tezina,$visina,$datumRodenja,$nazivOsiguranika);
-    Flight::json($new_patient);
-
-    //RADI UREDNO 
+    $service = new PacijentService();
+    $created = $service->create($data);   
+    Flight::json($created, 201);
 });
-
 
 /**
  * @OA\Put(
@@ -142,24 +131,17 @@ Flight::route('POST /patient/add',function(){
  *     ),
  *     @OA\Response(
  *         response=404,
- *         description="Pacijent nije pronađen u bazi ."
+ *         description="Pacijent nije pronađen u bazi."
  *     )
  * )
  */
+Flight::route('PUT /patient/@id', function($id) {
+    $data = Flight::request()->data->getData();
 
-Flight::route('PUT /patient/@id',function($id){
-
-    $data = Flight::request()->data;
-
-    $service = new pacijentService();
-    $change_patient = $service -> updatePatient($id, $data);
-
-    Flight::json($change_patient);
-
-    //RADI UREDNO 
-
+    $service = new PacijentService();
+    $updated = $service->update($id, $data); 
+    Flight::json($updated ? ['message'=>'Ažurirano'] : ['message'=>'Ne postoji'], $updated ? 200 : 404);
 });
-
 
 /**
  * @OA\Delete(
@@ -175,30 +157,21 @@ Flight::route('PUT /patient/@id',function($id){
  *     ),
  *     @OA\Response(
  *         response=200,
- *         description="Patient uspiješno izbrisan."
+ *         description="Pacijent uspješno izbrisan."
  *     ),
  *     @OA\Response(
  *         response=404,
- *         description="Patient nije pronađen ."
+ *         description="Pacijent nije pronađen."
  *     )
  * )
  */
+Flight::route('DELETE /patient/@id', function($id) {
+    $service = new PacijentService();
 
-Flight::route('DELETE /patient/@id',function($id){
-
-    $message = "";
-
-    $service = new pacijentService();
-
-    $remove_patient = $service -> deletePatient($id);
-    Flight::json($remove_patient);
-
-    if ($remove_patient) {
-        $message =  "Pacijent je uspješno izbrisan iz baze podataka .";
+    $deleted = $service->delete($id);      
+    if ($deleted) {
+        Flight::json(['message'=>'Pacijent izbrisan']);
     } else {
-        $message = "Pacijent nije uspješno izbrisan iz baze podataka.";
+        Flight::json(['message'=>'Ne postoji'], 404);
     }
-    print($message);
-
-    //RADI 
 });

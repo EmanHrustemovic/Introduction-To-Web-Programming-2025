@@ -1,18 +1,14 @@
 <?php
 
 require_once __DIR__ . '/../dao/TerapijaDao.php';
-require_once __DIR__ . '/../services/terapijaServices.php';
+require_once __DIR__ . '/../services/TerapijaServices.php';
 
 use App\dao\TerapijaDao;
 use App\services\TerapijaServices;
 
-
 Flight::route('GET /connection-check' ,function(){
-    
     $projectService = Flight::projectService();
-    
     echo $projectService -> connStatus;
-
 });
 
 /**
@@ -26,14 +22,10 @@ Flight::route('GET /connection-check' ,function(){
  *     )
  * )
  */
-
-Flight::route('GET /therapy',function(){
-
-    $dao = new TerapijaDao();
-    $terapija = $dao -> getAllTherapy();
-    Flight::json($terapija);
-    
-    //RADI
+Flight::route('GET /therapy', function(){
+    $service = new TerapijaServices();
+    $therapy_list = $service->getAll();  
+    Flight::json($therapy_list);
 });
 
 /**
@@ -54,15 +46,11 @@ Flight::route('GET /therapy',function(){
  *     )
  * )
  */
-
-Flight::route('GET /therapy/@id',function($id){
-
-    $dao = new TerapijaDao();
-    $terapija_po_id = $dao -> getTherapyByID($id);
-    Flight::json($terapija_po_id);
-
-    //RADI 
-
+Flight::route('GET /therapy/@id', function($id){
+    $service = new TerapijaServices();
+    
+    $therapy = $service->getByID($id);  
+    Flight::json($therapy);
 });
 
 /**
@@ -73,7 +61,7 @@ Flight::route('GET /therapy/@id',function($id){
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"id", "terapija_id", "vrsta", "doza_i_uputa", "trajanje", "kontrola", "doktor_id", "pregledi_id"},
+ *             required={"terapija_id", "vrsta", "doza_i_uputa", "trajanje", "kontrola", "doktor_id", "pregledi_id"},
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="terapija_id", type="integer", example=4),
  *             @OA\Property(property="vrsta", type="string", example="antibiotik"),
@@ -90,27 +78,12 @@ Flight::route('GET /therapy/@id',function($id){
  *     )
  * )
  */
-
- Flight::route('POST /therapy/add', function(){
-
+Flight::route('POST /therapy/add', function(){
     $data = Flight::request()->data;
-
-    $id = $data -> id;
-    $terapija_id = $data -> terapija_id;
-    $vrsta = $data -> vrsta;
-    $doza_i_uputa = $data -> doza_i_uputa;
-    $trajanje = $data -> trajanje;
-    $kontrola = $data -> kontorla;
-    $doktor_id = $data -> doktor_id;
-    $pregledi_id = $data -> pregledi_id;
-
-
-    $service = new terapijaServices();
-    $nova_terapija = $service -> addTherapy($id,$terapija_id,$vrsta,$doza_i_uputa,$trajanje,$kontrola,$doktor_id, $pregledi_id);
-
-    Flight::json($nova_terapija);
-
-    //RADI
+    $service = new TerapijaServices();
+    
+    $new_therapy = $service->add($data);  
+    Flight::json(['message' => 'Terapija uspješno dodana.']);
 });
 
 /**
@@ -143,18 +116,13 @@ Flight::route('GET /therapy/@id',function($id){
  *     )
  * )
  */
-
 Flight::route('PUT /therapy/@id',function($id){
-
     $data = Flight::request()->data;
 
-    $service = new terapijaServices();
-    $izmjena = $service -> updateTherapy($id, $data);
-
-    Flight::json($izmjena);
-
-    //RADI
-
+    $service = new TerapijaServices();
+    
+    $updated_therapy = $service->update($id, $data);  
+    Flight::json(['message' => 'Terapija uspješno ažurirana.']);
 });
 
 /**
@@ -175,13 +143,13 @@ Flight::route('PUT /therapy/@id',function($id){
  *     )
  * )
  */
-
 Flight::route('DELETE /therapy/@id',function($id){
-    $service = new terapijaServices();
+    $service = new TerapijaServices();
 
-    $ukloni_terapiju = $service -> deleteTherapy($id);
-    Flight::json($ukloni_terapiju);
-
-    //RADI
-
+    $delete_result = $service->delete($id);  
+    if ($delete_result) {
+        Flight::json(['message' => 'Terapija uspješno izbrisana iz baze.']);
+    } else {
+        Flight::json(['message' => 'Terapija nije pronađena ili nije izbrisana.']);
+    }
 });

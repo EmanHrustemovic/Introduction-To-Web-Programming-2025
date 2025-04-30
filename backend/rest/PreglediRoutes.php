@@ -1,19 +1,15 @@
 <?php
 
 require_once __DIR__ . '/../dao/PreglediDao.php';
-require_once __DIR__ . '/../services/preglediService.php';
+require_once __DIR__ . '/../services/PreglediService.php';
 
 use App\dao\PreglediDao;
-use App\services\preglediService;
+use App\services\PreglediService;
 
-
-
-Flight::route('GET /connection-check' ,function(){
-    
+// Check connection (e.g., for debugging)
+Flight::route('GET /connection-check', function() {
     $projectService = Flight::projectService();
-    
-    echo $projectService -> connStatus;
-
+    echo $projectService->connStatus;
 });
 
 /**
@@ -27,14 +23,11 @@ Flight::route('GET /connection-check' ,function(){
  *     )
  * )
  */
+Flight::route('GET /checks', function() {
+    $service = new PreglediService();
 
-Flight::route('GET /checks',function(){
-
-    $dao = new PreglediDao();
-
-    $checks = $dao->getAllChecks();
-    Flight::json($checks);
-    //RADI 
+    $all_checks = $service->getAll();
+    Flight::json($all_checks);
 });
 
 /**
@@ -55,16 +48,12 @@ Flight::route('GET /checks',function(){
  *     )
  * )
  */
+Flight::route('GET /checks/@id', function($id) {
+    $service = new PreglediService();
 
-Flight::route('GET /checks/@id',function($id){
-
-    $dao = new PreglediDao();
-    $checks_per_id = $dao ->preglediPoID($id);
-    Flight::json($checks_per_id);
-
-    //RADI 
+    $check = $service->getByID($id);
+    Flight::json($check);
 });
-
 
 /**
  * @OA\Post(
@@ -92,27 +81,13 @@ Flight::route('GET /checks/@id',function($id){
  *     )
  * )
  */
-
-Flight::route('POST /checks/add',function(){
-
+Flight::route('POST /checks/add', function() {
     $data = Flight::request()->data;
 
-    $id = $data -> id;
-    $nazivPregleda = $data->nazivPregleda;
-    $datum_vrijeme = $data->datum_vrijeme;
-    $status = $data->status;
-    $opis = $data->opis;
-    $rezultati = $data->rezultati;
-    $odjeljenje_id = $data ->odjeljenje_id;
-    $doktor_id = $data ->doktor_id;
-    $preporuka = $data ->preporuka;
+    $service = new PreglediService();
+    $new_check = $service->add($data);
 
-    $service = new preglediService();
-    $add_check = $service ->dodajPregled($id,$nazivPregleda,$datum_vrijeme,$status,$opis,$rezultati,$odjeljenje_id,$doktor_id,$preporuka);
-
-    Flight::json($add_check);
-
-    //RADI
+    Flight::json(['message' => 'Pregled uspješno dodat.']);
 });
 
 /**
@@ -146,16 +121,13 @@ Flight::route('POST /checks/add',function(){
  *     )
  * )
  */
-
-Flight::route('PUT /checks/@id', function($id){
+Flight::route('PUT /checks/@id', function($id) {
     $data = Flight::request()->data;
 
-    $service = new preglediService();
-    $service->izmjeniPregled($id, $data);
+    $service = new PreglediService();
+    $service->update($id, $data);
 
-    Flight::json(["message" => "Pregled uspješno ažuriran"]);
-
-    //RADI
+    Flight::json(['message' => 'Pregled uspješno ažuriran.']);
 });
 
 /**
@@ -176,13 +148,9 @@ Flight::route('PUT /checks/@id', function($id){
  *     )
  * )
  */
+Flight::route('DELETE /checks/@id', function($id) {
+    $service = new PreglediService();
+    $service->delete($id);
 
-Flight::route('DELETE /checks/@id',function($id){
-
-    $service = new preglediService();
-    $delete_check = $service ->obrisiPregled($id);
-    Flight::json($delete_check);
-
-    //RADI
-
+    Flight::json(['message' => 'Pregled uspješno izbrisan.']);
 });

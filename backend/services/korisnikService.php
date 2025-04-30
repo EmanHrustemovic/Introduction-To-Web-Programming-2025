@@ -1,13 +1,33 @@
 <?php
 
-require_once '../dao/KorisnikDao.php';
+namespace App\services;
 
-class KorisnikService extends ProjectService{
+require_once __DIR__ . '/ProjectService.php';
+require_once __DIR__ . '/../dao/KorisnikDao.php';  
+
+use App\dao\KorisnikDao;
+
+class KorisnikService extends ProjectService {
+
+    public function __construct() {
+        $dao = new KorisnikDao();
+        parent::__construct($dao);
+    }
+
+    public function getByEmail($email) { //ne znam moram li ovo imati ? 
+        return $this->dao->getByEmail($email);
+    }
+
+    /*
+
+    private $dao;
 
     public function __construct(){
 
-        $dao = new KorisnikDao();
-        parent::__construct($dao);
+        $this -> dao = new KorisnikDao();
+        //parent::__construct($dao);
+
+        //Dodaj Base Service 
     }
 
     public function getAllUsers(){
@@ -20,9 +40,9 @@ class KorisnikService extends ProjectService{
         return $this->dao->getUserByID($id);
     }
 
-    public function addUser($data){
+    public function addUser($id,$ime,$prezime,$email,$telefon,$password,$uloga){
 
-        return $this->dao->addUser($data);
+        return $this->dao->addUser($id,$ime,$prezime,$email,$telefon,$password,$uloga);;
     }
 
     public function updateUser($id, $data){
@@ -34,5 +54,5 @@ class KorisnikService extends ProjectService{
 
         return $this->dao->deleteUser($id);
     }
+    */
 }
-?>

@@ -1,22 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../services/ProjectService.php';
+require_once __DIR__ . '/../services/LaboratorijaService.php';
 
-require_once __DIR__ . '/../dao/LaboratorijaDao.php';
-require_once __DIR__ . '/../services/laboratorijaService.php';
-
-use App\dao\LaboratorijaDao;
-use App\services\laboratorijaService;
-
-Flight::route('GET /connection-check' ,function(){
-    
-    /*
-    $projectService = Flight::projectService();
-    
-    echo $projectService -> connStatus;
-    */
-
-});
-
+use App\services\LaboratorijaService;
 
 /**
  * @OA\Get(
@@ -29,18 +16,12 @@ Flight::route('GET /connection-check' ,function(){
  *     )
  * )
  */
+Flight::route('GET /labs', function() {
+    $service = new LaboratorijaService();
 
-Flight::route('GET /labs',function(){
-
-    $dao = new LaboratorijaDao();
-    $laboratorija = $dao->pregledLaboratorije();
-
-    Flight::json($laboratorija);
-
-    //RADI
-
+    $all = $service->getAll();                  
+    Flight::json($all);
 });
-
 
 /**
  * @OA\Get(
@@ -60,19 +41,16 @@ Flight::route('GET /labs',function(){
  *     )
  * )
  */
+Flight::route('GET /labs/@id', function($id) {
+    $service = new LaboratorijaService();
 
-Flight::route('GET /labs/@id',function($id){
-
-    $dao = new LaboratorijaDao();
-    $lab = $dao -> laboratorijaPoId($id);
-    Flight::json($lab);
-//RADI
+    $item = $service->getById($id);             
+    Flight::json($item);
 });
-
 
 /**
  * @OA\Post(
- *     path="/labs/add",
+ *     path="/labs",
  *     tags={"Laboratorija"},
  *     summary="Add new laboratory record",
  *     @OA\RequestBody(
@@ -93,25 +71,22 @@ Flight::route('GET /labs/@id',function($id){
  *     )
  * )
  */
+Flight::route('POST /labs', function() {
+    $data = Flight::request()->data->getData();
 
-Flight::route('POST /labs/add', function() {
-    $data = Flight::request()->data;
+    $service = new LaboratorijaService();
+    $created = $service->create($data);
 
-    $sifraNalaza = $data->sifraNalaza;
-    $tipNalaza = $data->tipNalaza;
-    $vrsta_uzorka = $data->vrsta_uzorka;
-    $datum_obrade = $data->datum_obrade;
-    $status = $data->status;
-    $pregledi_id = $data->pregledi_id;
-
-    $service = new laboratorijaService();
-    $new_lab = $service->addLaboratory($sifraNalaza, $tipNalaza, $vrsta_uzorka, $datum_obrade, $status, $pregledi_id);
-
-    Flight::json(["success" => true]);
-
-    //RADI
+    if ($created) {
+        Flight::json([
+            'message' => 'Laboratorijski nalaz je uspješno dodat u bazu.'
+        ]);
+    } else {
+        Flight::json([
+            'message' => 'Greška prilikom dodavanja laboratorijskog nalaza.'
+        ], 500);
+    }
 });
-
 
 /**
  * @OA\Put(
@@ -142,20 +117,21 @@ Flight::route('POST /labs/add', function() {
  *     )
  * )
  */
-
 Flight::route('PUT /labs/@id', function($id) {
+    $data = Flight::request()->data->getData();
+    $service = new LaboratorijaService();
+    $updated = $service->update($id, $data);
 
-    $data = Flight::request()->data;
-    //var_dump(Flight::request()->data);
-
-    $service = new laboratorijaService();
-    $update_lab = $service->updateLaboratory($id, $data);
-
-    Flight::json($update_lab);
-
-    //RADI
+    if ($updated) {
+        Flight::json([
+            'message' => "Laboratorijski nalaz (ID: $id) je uspješno ažuriran."
+        ]);
+    } else {
+        Flight::json([
+            'message' => "Greška prilikom ažuriranja laboratorijskog nalaza (ID: $id)."
+        ], 500);
+    }
 });
-
 /**
  * @OA\Delete(
  *     path="/labs/{id}",
@@ -174,23 +150,17 @@ Flight::route('PUT /labs/@id', function($id) {
  *     )
  * )
  */
+Flight::route('DELETE /labs/@id', function($id) {
+    $service = new LaboratorijaService();
+    $deleted = $service->delete($id);
 
-Flight::route('DELETE /labs/@id',function($id){
-
-    // RADI
-
-    $message = "";
-
-    $service = new laboratorijaService();
-
-    $delete_lab = $service-> deleteLaboratory($id);
-
-    if ($delete_lab) {
-        $message =  "Laboratorijski podatci su uspješno izbrisani iz baze.";
+    if ($deleted) {
+        Flight::json([
+            'message' => "Laboratorijski nalaz (ID: $id) je uspješno obrisan iz baze."
+        ]);
     } else {
-        $message = "Laboratorijski podatci nisu uspješno izbrisani iz baze.";
+        Flight::json([
+            'message' => "Greška prilikom brisanja laboratorijskog nalaza (ID: $id)."
+        ], 500);
     }
-    print($message);
-
-    //RADI
 });

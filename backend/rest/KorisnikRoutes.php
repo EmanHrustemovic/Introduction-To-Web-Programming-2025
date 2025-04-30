@@ -1,17 +1,8 @@
 <?php
 
-use App\dao\KorisnikDao;
-use App\services\korisnikService;
+require_once __DIR__ . '/../services/KorisnikService.php';
 
-
-Flight::route('GET /connection-check' ,function(){
-    
-    $projectService = Flight::projectService();
-    
-    echo $projectService -> connStatus;
-
-});
-
+use App\services\KorisnikService;
 
 /**
  * @OA\Get(
@@ -24,15 +15,11 @@ Flight::route('GET /connection-check' ,function(){
  *     )
  * )
  */
-
-Flight::route('GET /user',function(){
-
-    $dao = new KorisnikDao();
-    $svi_korisnici = $dao->getAllUsers();
-
-    Flight::json($svi_korisnici);
-
-    //RADI
+Flight::route('GET /user', function() {
+    $service = new KorisnikService();
+    
+    $all = $service->getAll();            
+    Flight::json($all);
 });
 
 /**
@@ -53,26 +40,22 @@ Flight::route('GET /user',function(){
  *     )
  * )
  */
+Flight::route('GET /user/@id', function($id) {
+    $service = new KorisnikService();
 
-Flight::route('GET /user/@id' , function($id){
-
-    $dao = new KorisnikDao();
-    $korisnici_po_id = $dao -> getUserByID($id);
-    Flight::json($korisnici_po_id);
-
-    //RADI
+    $one = $service->getById($id);        
+    Flight::json($one ?: [], $one ? 200 : 404);
 });
 
 /**
  * @OA\Post(
- *     path="/user/add",
+ *     path="/user",
  *     tags={"Korisnici"},
  *     summary="Add a new user",
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"id", "ime", "prezime", "email", "telefon", "password", "uloga"},
- *             @OA\Property(property="id", type="integer", example=1),
+ *             required={"ime","prezime","email","telefon","password","uloga"},
  *             @OA\Property(property="ime", type="string", example="Eman"),
  *             @OA\Property(property="prezime", type="string", example="Hrustemović"),
  *             @OA\Property(property="email", type="string", format="email", example="eman@example.com"),
@@ -82,31 +65,18 @@ Flight::route('GET /user/@id' , function($id){
  *         )
  *     ),
  *     @OA\Response(
- *         response=200,
+ *         response=201,
  *         description="Korisnik uspješno dodat"
  *     )
  * )
  */
-
-Flight::route('POST /user/add',function (){
-
-    $data = Flight::request()->data;
-
-    $id = $data -> id;
-    $ime = $data -> ime;
-    $prezime = $data -> prezime;
-    $email = $data -> email;
-    $telefon = $data -> telefon;
-    $password = $data -> password;
-    $uloga = $data -> uloga;
+Flight::route('POST /user', function() {
+    $data = Flight::request()->data->getData();
 
     $service = new KorisnikService();
-    $service->addUser($id,$ime,$prezime,$email,$telefon,$password,$uloga);
-
-    Flight::json(['message' => 'Korisnik uspješno dodat.']);
-    //RADI
+    $created = $service->create($data);   
+    Flight::json($created, 201);
 });
-
 
 /**
  * @OA\Put(
@@ -137,20 +107,13 @@ Flight::route('POST /user/add',function (){
  *     )
  * )
  */
-
-Flight::route('PUT /user/@id',function($id){
-
-    $data = Flight::request()->data;
+Flight::route('PUT /user/@id', function($id) {
+    $data = Flight::request()->data->getData();
 
     $service = new KorisnikService();
-
-    $izmjeni_korisnika = $service -> updateUser($id,$data);
-
-
-    Flight::json($izmjeni_korisnika);
-    //NE RADI
+    $updated = $service->update($id, $data); 
+    Flight::json($updated ? ['message'=>'Ažurirano'] : ['message'=>'Ne postoji'], $updated ? 200 : 404);
 });
-
 
 /**
  * @OA\Delete(
@@ -170,16 +133,13 @@ Flight::route('PUT /user/@id',function($id){
  *     )
  * )
  */
-
-Flight::route('DELETE /user/@id',function($id){
-
-    $data = Flight::request()->data;
-
+Flight::route('DELETE /user/@id', function($id) {
     $service = new KorisnikService();
 
-    $ukloni_korisnika = $service -> deleteUser($id);
-    Flight::json($ukloni_korisnika);
-
-    //RADI
-
+    $deleted = $service->delete($id);      
+    if ($deleted) {
+        Flight::json(['message'=>'Korisnik izbrisan']);
+    } else {
+        Flight::json(['message'=>'Ne postoji'], 404);
+    }
 });

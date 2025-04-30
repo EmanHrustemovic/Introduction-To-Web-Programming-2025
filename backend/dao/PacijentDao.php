@@ -1,64 +1,51 @@
 <?php
+
 namespace App\dao;
 
-//require_once '../config.php';
-//require_once __DIR__ . '/ProjectDao.class.php';
+use PDO;
+use App\dao\ProjectDao;
 
 class PacijentDao extends ProjectDao {
-
-    private $pdo;
-
     public function __construct() {
         parent::__construct('pacijent_info');
-
-//        try {
-//            $servername = 'localhost';
-//            $db_name = 'moje_zdravlje';
-//            $username = 'root';
-//            $password = 'g3c9h.,1?0';
-//
-//            $this->pdo = new PDO("mysql:host=$servername;dbname=$db_name", $username, $password);
-//            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//        } catch (PDOException $e) {
-//            die("Connection failed: " . $e->getMessage());
-//        }
     }
 
     public function getAllPatients() {
-        $stmt = $this->pdo->prepare("SELECT * FROM pacijent");
+        $stmt = $this->connection->prepare("SELECT * FROM pacijent_info");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
-    public function getPatientByID($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM pacijent WHERE JMBG = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    public function getById($id) {
+        $stmt = $this->connection->prepare("SELECT * FROM pacijent_info WHERE pacijent_id = :id");
+        $stmt->bindParam(':id', $id);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch();
     }
 
-    public function addPatient($data) {
-        $sql = 'INSERT INTO pacijent (JMBG, punoIme, email, password, grad, težina, visina, datumRođenja, nazivOsiguranika) VALUES (:JMBG, :punoIme, :email, :password, :grad, :težina, :visina, :datumRođenja, :nazivOsiguranika)';
-
+    public function insert($data) {
+        $columns = implode(", ", array_keys($data));
+        $placeholders = ":" . implode(", :", array_keys($data));
+        $sql = "INSERT INTO pacijent_info ($columns) VALUES ($placeholders)";
         $stmt = $this->connection->prepare($sql);
         return $stmt->execute($data);
     }
 
-    public function updatePatient($id, $data) {
-        $sql = 'UPDATE pacijent SET punoIme = :punoIme, email = :email, password = :password, grad = :grad, 
-                težina = :težina, visina = :visina, datumRođenja = :datumRođenja, nazivOsiguranika = :nazivOsiguranika 
-                WHERE JMBG = :JMBG';
-
-        $stmt = $this->pdo->prepare($sql);
+    public function update($id, $data) {
+        $fields = "";
+        foreach ($data as $key => $value) {
+            $fields .= "$key = :$key, ";
+        }
+        $fields = rtrim($fields, ", ");
+        $sql = "UPDATE pacijent_info SET $fields WHERE pacijent_id = :id";
+        $stmt = $this->connection->prepare($sql);
+        $data['id'] = $id;
         return $stmt->execute($data);
     }
 
-    public function deletePatient($id) {
-        $sql = "DELETE FROM pacijent WHERE JMBG = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+    public function delete($id) {
+        $stmt = $this->connection->prepare("DELETE FROM pacijent_info WHERE pacijent_id = :id");
+        $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
 }
-
-?>

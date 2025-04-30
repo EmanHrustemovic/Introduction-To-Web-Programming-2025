@@ -1,19 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../dao/ZdravstveniKartonDao.php';
-require_once __DIR__ . '/../services/zdravstveniKartonService.php';
-
-use App\dao\ZdravstveniKartonDao;
-use App\services\zdravstveniKartonService;
-
-
-Flight::route('GET /connection-check' ,function(){
-    
-    $projectService = Flight::projectService();
-    
-    echo $projectService -> connStatus;
-
-});
+require_once __DIR__ . '/../services/ZdravstveniKartonService.php';
+use App\services\ZdravstveniKartonService;
 
 /**
  * @OA\Get(
@@ -26,14 +14,11 @@ Flight::route('GET /connection-check' ,function(){
  *     )
  * )
  */
-
-Flight::route('GET /cards', function(){
-
-    $dao = new ZdravstveniKartonDao();
-    $card = $dao->izlistajKarton();
-
-    Flight::json($card);
-    //RADI 
+Flight::route('GET /cards', function() {
+    $service = new ZdravstveniKartonService();
+    
+    $all = $service->getAll();            
+    Flight::json($all);
 });
 
 /**
@@ -54,30 +39,25 @@ Flight::route('GET /cards', function(){
  *     )
  * )
  */
-
-Flight::route('GET /cards/@id',function($id){
-
-    $dao = new ZdravstveniKartonDao();
-
-    $card_by_id = $dao->kartoniPoID($id);
-    Flight::json($card_by_id);
-
-    //RADI 
+Flight::route('GET /cards/@id', function($id) {
+    $service = new ZdravstveniKartonService();
+   
+    $one = $service->getById($id);       
+    Flight::json($one);
 });
 
 /**
  * @OA\Post(
- *     path="/cards/add",
+ *     path="/cards",
  *     tags={"Zdravstveni kartoni"},
  *     summary="Add a new medical card",
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"id", "sifraBolesti", "nazivBolesti", "dijagnoza", "terapija", "pacijent_id", "pregledi_id", "doktor_id"},
- *             @OA\Property(property="id", type="integer", example=1),
+ *             required={"sifraBolesti","nazivBolesti","dijagnoza","terapija","pacijent_id","pregledi_id","doktor_id"},
  *             @OA\Property(property="sifraBolesti", type="string", example="012478"),
  *             @OA\Property(property="nazivBolesti", type="string", example="Diabetes mellitus"),
- *             @OA\Property(property="dijagnoza", type="string", example="diabetes type 1"),
+ *             @OA\Property(property="dijagnoza", type="string", example="type 1"),
  *             @OA\Property(property="terapija", type="string", example="Insulin therapy"),
  *             @OA\Property(property="pacijent_id", type="integer", example=3),
  *             @OA\Property(property="pregledi_id", type="integer", example=5),
@@ -85,33 +65,18 @@ Flight::route('GET /cards/@id',function($id){
  *         )
  *     ),
  *     @OA\Response(
- *         response=200,
+ *         response=201,
  *         description="Novi zdravstveni karton uspješno dodat"
  *     )
  * )
  */
+Flight::route('POST /cards', function() {
+    $data = Flight::request()->data->getData();
 
-Flight::route('POST /cards/add', function(){
+    $service = new ZdravstveniKartonService();
+    $created = $service->create($data);           
 
-    $data = Flight::request()->data;
-
-    $id = $data->id;
-    $sifraBolesti = $data->sifraBolesti;
-    $nazivBolesti = $data->nazivBolesti;
-    $dijagnoza = $data -> dijagnoza;
-    $terapija = $data -> terapija;
-    $pacijent_id = $data -> pacijent_id;
-    $pregledi_id = $data -> pregledi_id;
-    $doktor_id = $data -> doktor_id;
-
-    $service = new zdravstveniKartonService();
-
-    $novi_karton = $service->dodajKarton($id,$sifraBolesti,$nazivBolesti,$dijagnoza,$terapija,$pacijent_id,$pregledi_id,$doktor_id);
-    Flight::json($novi_karton);
-
-    Flight::json(['message' => 'Novi karton je uspješno dodat.']);
-
-    // RADI
+    Flight::json($created, 201);
 });
 
 /**
@@ -144,16 +109,12 @@ Flight::route('POST /cards/add', function(){
  *     )
  * )
  */
-
-Flight::route('PUT /cards/@id',function($id){
-
-    $data = Flight::request()->data;
-
-    $service = new zdravstveniKartonService();
-    $izmjeni_karton = $service -> izmjeniKarton($id,$data);
-
-    Flight::json($izmjeni_karton);
-    //RADI
+Flight::route('PUT /cards/@id', function($id) {
+    $data = Flight::request()->data->getData();
+    
+    $service = new ZdravstveniKartonService();
+    $updated = $service->update($id, $data);     
+    Flight::json($updated);
 });
 
 /**
@@ -174,13 +135,13 @@ Flight::route('PUT /cards/@id',function($id){
  *     )
  * )
  */
-
-Flight::route('DELETE /cards/@id',function($id){
-
-    $service = new zdravstveniKartonService();
-
-    $ukloni_karton = $service -> obrisiKarton($id);
-    Flight::json($ukloni_karton);
-    // NE RADI
+Flight::route('DELETE /cards/@id', function($id) {
+    $service = new ZdravstveniKartonService();
+    
+    $deleted = $service->delete($id);          
+    if ($deleted) {
+        Flight::json(['message' => 'Karton uspješno izbrisan']);
+    } else {
+        Flight::json(['message' => 'Karton nije pronađen'], 404);
+    }
 });
-

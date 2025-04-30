@@ -1,10 +1,6 @@
 <?php
 
-
-require_once __DIR__ . '/../dao/DoctorDao.php';
 require_once __DIR__ . '/../services/DoctorService.php';
-
-use App\dao\DoctorDao;
 use App\services\DoctorService;
 
 /**
@@ -18,15 +14,11 @@ use App\services\DoctorService;
  *     )
  * )
  */
+Flight::route('GET /doctors', function () {
+    $service = new DoctorService(); 
 
-Flight::route('GET /doctors' , function(){
-
-    $dao = new DoctorDao();
-    $all_doctors = $dao->getAllDoctors();
-
+    $all_doctors = $service->getAll(); 
     Flight::json($all_doctors);
-
-    //RADI
 });
 
 /**
@@ -47,15 +39,11 @@ Flight::route('GET /doctors' , function(){
  *     )
  * )
  */
+Flight::route('GET /doctors/@id', function ($id) {
+    $service = new DoctorService();
 
-Flight::route('GET /doctors/@id',function($id){
-    
-    $dao = new DoctorDao();
-    $doctors_by_id = $dao->getByDocID($id);
-
-    Flight::json($doctors_by_id);
-
-    //RADI
+    $doctor = $service->getById($id); 
+    Flight::json($doctor);
 });
 
 /**
@@ -78,20 +66,12 @@ Flight::route('GET /doctors/@id',function($id){
  *     )
  * )
  */
-
 Flight::route('POST /doctors/add', function () {
-    $data = Flight::request()->data;
-
-    $user_id = $data->user_id;
-    $titula = $data->titula;
-    $odjeljenje = $data->odjeljenje;
+    $data = Flight::request()->data->getData();
 
     $service = new DoctorService();
-    $service->addDoctor($user_id, $titula, $odjeljenje);
-
+    $service->create($data); 
     Flight::json(['message' => 'Doktor uspješno dodat.']);
-
-    //Radi
 });
 
 /**
@@ -119,15 +99,12 @@ Flight::route('POST /doctors/add', function () {
  *     )
  * )
  */
-
-Flight::route('PUT /doctors/@id',function($id){
-    $data = Flight::request()->data;
-
-    $service = new DoctorService();
-    $updated_doctor = $service-> updateDoctor($id,$data);
-
-    Flight::json($updated_doctor);
-//RADI
+Flight::route('PUT /doctors/@id', function ($id) {
+    $data = Flight::request()->data->getData(); 
+    
+    $service = new DoctorService(); 
+    $service->update($id, $data); 
+    Flight::json(['message' => 'Doktor uspješno ažuriran.']);
 });
 
 /**
@@ -148,20 +125,13 @@ Flight::route('PUT /doctors/@id',function($id){
  *     )
  * )
  */
-
-Flight::route('DELETE /doctors/@id' , function($id){
-
-    $message = "";
-
-    $service = new DoctorService();
-
-    $delete_doctor = $service-> deleteDoctor($id);
-
-    if ($delete_doctor) {
-        $message =  "Doktor je uspješno izbrisan iz baze podataka .";
+Flight::route('DELETE /doctors/@id', function ($id) {
+    $service = new DoctorService(); 
+    $deleted = $service->delete($id); 
+    if ($deleted) {
+        Flight::json(['message' => 'Doktor uspješno izbrisan.']);
     } else {
-        $message = "Doktor nije uspješno izbrisan iz baze podataka.";
+        Flight::json(['message' => 'Doktor nije pronađen.'], 404);
     }
-    print($message);
-//RADI
 });
+?>

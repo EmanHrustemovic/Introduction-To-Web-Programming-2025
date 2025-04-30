@@ -1,20 +1,34 @@
 <?php
+namespace App\services;
 
-require_once '../dao/DoctorDao.php';
+require_once __DIR__ . '/../services/ProjectService.php';
+require_once __DIR__ . '/../dao/DoctorDao.php';  
 
+use App\dao\DoctorDao;
 
-class DoctorService extends ProjectService{
+class DoctorService extends ProjectService {
+    
+    public function __construct() {
+        $dao = new DoctorDao();
+        parent::__construct($dao);
+    }
+
+    public function getByDocID($id) {
+        return $this->dao->getByDocID($id);
+    }
+}
+    /*
+    private $dao;
 
     public function __construct(){
 
-        $dao = new DoctorDao(); 
-        
-        parent::__construct($dao);
+        $this->dao = new DoctorDao();
+
     }
 
     public function getAllDoctors(){
         
-        return $this->dao->getAllDoctors();
+        $this->dao->getAllDoctors();
     }
 
     public function getByDocID($id){
@@ -22,9 +36,14 @@ class DoctorService extends ProjectService{
         return $this->dao->getByDocID($id);
     }
 
-    public function addDoctor($data){
+    public function addDoctor($user_id,$titula,$odjeljenje){
 
-        return $this->dao->addDoctor($data);
+        $this->dao->addDoctor($user_id,$titula,$odjeljenje);
+    }
+
+    public function updateDoctor($id,$data){
+
+        return $this->dao->updateDoctor($id,$data);
 
     }
 
@@ -32,8 +51,4 @@ class DoctorService extends ProjectService{
         
         return $this->dao->deleteDoctor($id);
     }
-
-
-}
-
-?>
+*/

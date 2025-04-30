@@ -6,7 +6,7 @@ require  'rest/DoctorRoutes.php';
 require  'rest/KorisnikRoutes.php';
 require 'rest/LaboratorijaRoutes.php';
 require 'rest/PacijentRoutes.php';
-require  'rest/KartonRoutes.php';
+require  'rest/ZdravstveniKartonRoutes.php';
 require  'rest/PreglediRoutes.php';
 require  'rest/TerapijaRoutes.php';
 //require_once __DIR__ . '/../routes/otpRoutes.php';
