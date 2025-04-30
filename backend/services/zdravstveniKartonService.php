@@ -1,24 +1,22 @@
 <?php
 
-require_once '../dao/ZdravstveniKartonDao.php';
+namespace App\services;
 
+use App\dao\kartonService;
 
-class TerapijaServices extends ProjectService{
+class kartonService {
+
+    private $dao;
 
     public function __construct(){
 
-        $dao = new ZdravstveniKartontDao();
-        parent::__construct($dao);
-    }
+        $this -> dao = new ZdravstveniKartontDao();
 
-    public function dodajKarton($data){
-
-        return $this->dao->dodajKarton($data);
     }
 
     public function izlistajKarton(){
 
-        return $this->dao->izlistajKarton();
+         $this->dao->izlistajKarton();
     }
 
     public function kartoniPoID($id){
@@ -29,6 +27,11 @@ class TerapijaServices extends ProjectService{
     public function izmjeniKarton($id, $data){
 
         return $this->dao->izmjeniKarton($id,$data);
+    }
+
+    public function dodajKarton($data){
+
+        return $this->dao->dodajKarton($data);
     }
 
     public function obrišiKarton($id){
