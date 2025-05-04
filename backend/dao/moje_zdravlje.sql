@@ -9,21 +9,21 @@ CREATE TABLE user (
 );
 
 CREATE TABLE doktor_info (
-    user_id INT PRIMARY KEY,
+    id INT PRIMARY KEY,
     titula VARCHAR(50),
     odjeljenje VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (id) REFERENCES user(id)
 );
 
 CREATE TABLE pacijent_info (
-    user_id INT PRIMARY KEY,
+    id INT PRIMARY KEY,
     JMBG VARCHAR(13) UNIQUE,
     grad VARCHAR(50),
     težina DECIMAL(20,6),
     visina DECIMAL(20,6),
     datumRođenja DATE,
     nazivOsiguranika VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (id) REFERENCES user(id)
 );
 
 CREATE TABLE pregledi (
@@ -36,7 +36,7 @@ CREATE TABLE pregledi (
     odjeljenje_id INT,
     doktor_id INT,
     preporuka TEXT,
-    FOREIGN KEY (doktor_id) REFERENCES doktor_info(user_id)
+    FOREIGN KEY (doktor_id) REFERENCES doktor_info(id)
 );
 
 CREATE TABLE laboratorija (
@@ -59,7 +59,7 @@ CREATE TABLE terapija (
     kontrola DATE,
     doktor_id INT,
     pregledi_id INT,
-    FOREIGN KEY (doktor_id) REFERENCES doktor_info(user_id),
+    FOREIGN KEY (doktor_id) REFERENCES doktor_info(id),
     FOREIGN KEY (pregledi_id) REFERENCES pregledi(id)
 );
 
@@ -72,7 +72,7 @@ CREATE TABLE zdravstvenikarton (
     pacijent_id INT,
     pregledi_id INT,
     doktor_id INT,
-    FOREIGN KEY (pacijent_id) REFERENCES pacijent_info(user_id),
+    FOREIGN KEY (pacijent_id) REFERENCES pacijent_info(id),
     FOREIGN KEY (pregledi_id) REFERENCES pregledi(id),
-    FOREIGN KEY (doktor_id) REFERENCES doktor_info(user_id)
+    FOREIGN KEY (doktor_id) REFERENCES doktor_info(id)
 );

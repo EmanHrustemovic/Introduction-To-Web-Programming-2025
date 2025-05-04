@@ -1,18 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../dao/PacijentDao.php';
-require_once __DIR__ . '/../services/PacijentService.php';
-
 use App\dao\PacijentDao;
-use App\services\PacijentService;
-
-Flight::route('GET /connection-check' ,function(){
-    
-    $projectService = Flight::projectService();
-    
-    echo $projectService -> connStatus;
-
-});
 
 /**
  * @OA\Get(
@@ -26,12 +15,8 @@ Flight::route('GET /connection-check' ,function(){
  * )
  */
 Flight::route('GET /patient', function() {
-    $service = new PacijentService();
-    $patients = $service->getAll();
-
-
+    $patients = Flight::pacijent_service()->getAll();
     Flight::json($patients);
-
     Flight::json(['message' => 'Lista svih pacijenata je uspješno učitana.']);
 });
 
@@ -58,9 +43,7 @@ Flight::route('GET /patient', function() {
  * )
  */
 Flight::route('GET /patient/@id', function($id) {
-    $service = new PacijentService();
-    
-    $patient = $service->getById($id);
+    $patient = Flight::pacijent_service()->getById($id);
 
     if ($patient) {
         Flight::json($patient);
@@ -96,9 +79,7 @@ Flight::route('GET /patient/@id', function($id) {
  */
 Flight::route('POST /patient/add', function() {
     $data = Flight::request()->data->getData();
-
-    $service = new PacijentService();
-    $created = $service->create($data);   
+    $created = Flight::pacijent_service()->create($data);
     Flight::json($created, 201);
 });
 
@@ -137,9 +118,7 @@ Flight::route('POST /patient/add', function() {
  */
 Flight::route('PUT /patient/@id', function($id) {
     $data = Flight::request()->data->getData();
-
-    $service = new PacijentService();
-    $updated = $service->update($id, $data); 
+    $updated = Flight::pacijent_service()->update($id, $data);
     Flight::json($updated ? ['message'=>'Ažurirano'] : ['message'=>'Ne postoji'], $updated ? 200 : 404);
 });
 
@@ -166,9 +145,7 @@ Flight::route('PUT /patient/@id', function($id) {
  * )
  */
 Flight::route('DELETE /patient/@id', function($id) {
-    $service = new PacijentService();
-
-    $deleted = $service->delete($id);      
+    $deleted = Flight::pacijent_service()->delete($id);
     if ($deleted) {
         Flight::json(['message'=>'Pacijent izbrisan']);
     } else {

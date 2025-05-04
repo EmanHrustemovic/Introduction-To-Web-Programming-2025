@@ -1,7 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../services/DoctorService.php';
-use App\services\DoctorService;
+require_once __DIR__ . '/../dao/DoctorDao.php';
+use App\dao\DoctorDao;
+
 
 /**
  * @OA\Get(
@@ -15,10 +16,7 @@ use App\services\DoctorService;
  * )
  */
 Flight::route('GET /doctors', function () {
-    $service = new DoctorService(); 
-
-    $all_doctors = $service->getAll(); 
-    Flight::json($all_doctors);
+    Flight::json(Flight::doctor_service()->getAll());
 });
 
 /**
@@ -40,10 +38,7 @@ Flight::route('GET /doctors', function () {
  * )
  */
 Flight::route('GET /doctors/@id', function ($id) {
-    $service = new DoctorService();
-
-    $doctor = $service->getById($id); 
-    Flight::json($doctor);
+    Flight::json(Flight::doctor_service()->getById($id));
 });
 
 /**
@@ -68,9 +63,7 @@ Flight::route('GET /doctors/@id', function ($id) {
  */
 Flight::route('POST /doctors/add', function () {
     $data = Flight::request()->data->getData();
-
-    $service = new DoctorService();
-    $service->create($data); 
+    Flight::doctor_service()->create($data);
     Flight::json(['message' => 'Doktor uspješno dodat.']);
 });
 
@@ -100,10 +93,8 @@ Flight::route('POST /doctors/add', function () {
  * )
  */
 Flight::route('PUT /doctors/@id', function ($id) {
-    $data = Flight::request()->data->getData(); 
-    
-    $service = new DoctorService(); 
-    $service->update($id, $data); 
+    $data = Flight::request()->data->getData();
+    Flight::doctor_service()->update($id, $data);
     Flight::json(['message' => 'Doktor uspješno ažuriran.']);
 });
 
@@ -126,12 +117,10 @@ Flight::route('PUT /doctors/@id', function ($id) {
  * )
  */
 Flight::route('DELETE /doctors/@id', function ($id) {
-    $service = new DoctorService(); 
-    $deleted = $service->delete($id); 
+    $deleted = Flight::doctor_service()->delete($id);
     if ($deleted) {
         Flight::json(['message' => 'Doktor uspješno izbrisan.']);
     } else {
         Flight::json(['message' => 'Doktor nije pronađen.'], 404);
     }
 });
-?>

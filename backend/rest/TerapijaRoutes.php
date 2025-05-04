@@ -1,10 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../dao/TerapijaDao.php';
-require_once __DIR__ . '/../services/TerapijaServices.php';
-
 use App\dao\TerapijaDao;
-use App\services\TerapijaServices;
 
 Flight::route('GET /connection-check' ,function(){
     $projectService = Flight::projectService();
@@ -23,8 +20,7 @@ Flight::route('GET /connection-check' ,function(){
  * )
  */
 Flight::route('GET /therapy', function(){
-    $service = new TerapijaServices();
-    $therapy_list = $service->getAll();  
+    $therapy_list = Flight::terapija_service()->getAll();  
     Flight::json($therapy_list);
 });
 
@@ -47,11 +43,10 @@ Flight::route('GET /therapy', function(){
  * )
  */
 Flight::route('GET /therapy/@id', function($id){
-    $service = new TerapijaServices();
-    
-    $therapy = $service->getByID($id);  
+    $therapy = Flight::terapija_service()->getByID($id);  
     Flight::json($therapy);
 });
+
 
 /**
  * @OA\Post(
@@ -80,9 +75,7 @@ Flight::route('GET /therapy/@id', function($id){
  */
 Flight::route('POST /therapy/add', function(){
     $data = Flight::request()->data;
-    $service = new TerapijaServices();
-    
-    $new_therapy = $service->add($data);  
+    $new_therapy = Flight::terapija_service()->add($data);  
     Flight::json(['message' => 'Terapija uspješno dodana.']);
 });
 
@@ -118,12 +111,10 @@ Flight::route('POST /therapy/add', function(){
  */
 Flight::route('PUT /therapy/@id',function($id){
     $data = Flight::request()->data;
-
-    $service = new TerapijaServices();
-    
-    $updated_therapy = $service->update($id, $data);  
+    $updated_therapy = Flight::terapija_service()->update($id, $data);  
     Flight::json(['message' => 'Terapija uspješno ažurirana.']);
 });
+
 
 /**
  * @OA\Delete(
@@ -144,12 +135,11 @@ Flight::route('PUT /therapy/@id',function($id){
  * )
  */
 Flight::route('DELETE /therapy/@id',function($id){
-    $service = new TerapijaServices();
-
-    $delete_result = $service->delete($id);  
+    $delete_result = Flight::terapija_service()->delete($id);  
     if ($delete_result) {
         Flight::json(['message' => 'Terapija uspješno izbrisana iz baze.']);
     } else {
         Flight::json(['message' => 'Terapija nije pronađena ili nije izbrisana.']);
     }
 });
+

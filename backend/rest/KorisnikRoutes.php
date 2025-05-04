@@ -1,8 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../services/KorisnikService.php';
-
-use App\services\KorisnikService;
+require_once __DIR__ . '/../dao/KorisnikDao.php';
+use App\dao\KorisnikDao;
 
 /**
  * @OA\Get(
@@ -16,10 +15,7 @@ use App\services\KorisnikService;
  * )
  */
 Flight::route('GET /user', function() {
-    $service = new KorisnikService();
-    
-    $all = $service->getAll();            
-    Flight::json($all);
+    Flight::json(Flight::korisnik_service()->getAll());
 });
 
 /**
@@ -41,9 +37,7 @@ Flight::route('GET /user', function() {
  * )
  */
 Flight::route('GET /user/@id', function($id) {
-    $service = new KorisnikService();
-
-    $one = $service->getById($id);        
+    $one = Flight::korisnik_service()->getById($id);
     Flight::json($one ?: [], $one ? 200 : 404);
 });
 
@@ -72,9 +66,7 @@ Flight::route('GET /user/@id', function($id) {
  */
 Flight::route('POST /user', function() {
     $data = Flight::request()->data->getData();
-
-    $service = new KorisnikService();
-    $created = $service->create($data);   
+    $created = Flight::korisnik_service()->create($data);
     Flight::json($created, 201);
 });
 
@@ -109,9 +101,7 @@ Flight::route('POST /user', function() {
  */
 Flight::route('PUT /user/@id', function($id) {
     $data = Flight::request()->data->getData();
-
-    $service = new KorisnikService();
-    $updated = $service->update($id, $data); 
+    $updated = Flight::korisnik_service()->update($id, $data);
     Flight::json($updated ? ['message'=>'Ažurirano'] : ['message'=>'Ne postoji'], $updated ? 200 : 404);
 });
 
@@ -134,12 +124,6 @@ Flight::route('PUT /user/@id', function($id) {
  * )
  */
 Flight::route('DELETE /user/@id', function($id) {
-    $service = new KorisnikService();
-
-    $deleted = $service->delete($id);      
-    if ($deleted) {
-        Flight::json(['message'=>'Korisnik izbrisan']);
-    } else {
-        Flight::json(['message'=>'Ne postoji'], 404);
-    }
+    $deleted = Flight::korisnik_service()->delete($id);
+    Flight::json($deleted ? ['message'=>'Korisnik izbrisan'] : ['message'=>'Ne postoji'], $deleted ? 200 : 404);
 });

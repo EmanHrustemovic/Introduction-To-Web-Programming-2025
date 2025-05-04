@@ -5,12 +5,12 @@ namespace App\services;
 require_once __DIR__ . '/ProjectService.php';
 require_once __DIR__ . '/../dao/KorisnikDao.php';  
 
-use App\dao\KorisnikDao;
+use Flight;
 
 class KorisnikService extends ProjectService {
 
     public function __construct() {
-        $dao = new KorisnikDao();
+        $dao = Flight::KorisnikDao();
         parent::__construct($dao);
     }
 

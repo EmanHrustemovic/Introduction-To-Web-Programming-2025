@@ -1,9 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../services/ProjectService.php';
-require_once __DIR__ . '/../services/LaboratorijaService.php';
-
-use App\services\LaboratorijaService;
+require_once __DIR__ . '/../dao/LaboratorijaDao.php';
+use App\dao\LaboratorijaDao;
 
 /**
  * @OA\Get(
@@ -17,9 +15,7 @@ use App\services\LaboratorijaService;
  * )
  */
 Flight::route('GET /labs', function() {
-    $service = new LaboratorijaService();
-
-    $all = $service->getAll();                  
+    $all = Flight::laboratorija_service()->getAll();
     Flight::json($all);
 });
 
@@ -42,9 +38,7 @@ Flight::route('GET /labs', function() {
  * )
  */
 Flight::route('GET /labs/@id', function($id) {
-    $service = new LaboratorijaService();
-
-    $item = $service->getById($id);             
+    $item = Flight::laboratorija_service()->getById($id);
     Flight::json($item);
 });
 
@@ -73,9 +67,7 @@ Flight::route('GET /labs/@id', function($id) {
  */
 Flight::route('POST /labs', function() {
     $data = Flight::request()->data->getData();
-
-    $service = new LaboratorijaService();
-    $created = $service->create($data);
+    $created = Flight::laboratorija_service()->create($data);
 
     if ($created) {
         Flight::json([
@@ -119,8 +111,7 @@ Flight::route('POST /labs', function() {
  */
 Flight::route('PUT /labs/@id', function($id) {
     $data = Flight::request()->data->getData();
-    $service = new LaboratorijaService();
-    $updated = $service->update($id, $data);
+    $updated = Flight::laboratorija_service()->update($id, $data);
 
     if ($updated) {
         Flight::json([
@@ -132,6 +123,7 @@ Flight::route('PUT /labs/@id', function($id) {
         ], 500);
     }
 });
+
 /**
  * @OA\Delete(
  *     path="/labs/{id}",
@@ -151,8 +143,7 @@ Flight::route('PUT /labs/@id', function($id) {
  * )
  */
 Flight::route('DELETE /labs/@id', function($id) {
-    $service = new LaboratorijaService();
-    $deleted = $service->delete($id);
+    $deleted = Flight::laboratorija_service()->delete($id);
 
     if ($deleted) {
         Flight::json([

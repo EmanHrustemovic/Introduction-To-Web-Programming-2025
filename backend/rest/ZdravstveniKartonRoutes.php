@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../services/ZdravstveniKartonService.php';
-use App\services\ZdravstveniKartonService;
+require_once __DIR__ . '/../dao/ZdravstveniKartonDao.php';
+use App\dao\ZdravstveniKartonDao;
 
 /**
  * @OA\Get(
@@ -15,9 +15,8 @@ use App\services\ZdravstveniKartonService;
  * )
  */
 Flight::route('GET /cards', function() {
-    $service = new ZdravstveniKartonService();
-    
-    $all = $service->getAll();            
+
+    $all = Flight::kartoni_service()->getAll();
     Flight::json($all);
 });
 
@@ -40,9 +39,8 @@ Flight::route('GET /cards', function() {
  * )
  */
 Flight::route('GET /cards/@id', function($id) {
-    $service = new ZdravstveniKartonService();
-   
-    $one = $service->getById($id);       
+
+    $one = Flight::kartoni_service()->getById($id);
     Flight::json($one);
 });
 
@@ -73,9 +71,7 @@ Flight::route('GET /cards/@id', function($id) {
 Flight::route('POST /cards', function() {
     $data = Flight::request()->data->getData();
 
-    $service = new ZdravstveniKartonService();
-    $created = $service->create($data);           
-
+    $created = Flight::kartoni_service()->create($data);
     Flight::json($created, 201);
 });
 
@@ -112,8 +108,7 @@ Flight::route('POST /cards', function() {
 Flight::route('PUT /cards/@id', function($id) {
     $data = Flight::request()->data->getData();
     
-    $service = new ZdravstveniKartonService();
-    $updated = $service->update($id, $data);     
+    $updated = Flight::kartoni_service()->update($id, $data);
     Flight::json($updated);
 });
 
@@ -136,9 +131,8 @@ Flight::route('PUT /cards/@id', function($id) {
  * )
  */
 Flight::route('DELETE /cards/@id', function($id) {
-    $service = new ZdravstveniKartonService();
-    
-    $deleted = $service->delete($id);          
+
+    $deleted = Flight::kartoni_service()->delete($id);
     if ($deleted) {
         Flight::json(['message' => 'Karton uspješno izbrisan']);
     } else {

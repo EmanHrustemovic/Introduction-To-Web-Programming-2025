@@ -1,12 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../dao/PreglediDao.php';
-require_once __DIR__ . '/../services/PreglediService.php';
-
 use App\dao\PreglediDao;
-use App\services\PreglediService;
 
-// Check connection (e.g., for debugging)
+
 Flight::route('GET /connection-check', function() {
     $projectService = Flight::projectService();
     echo $projectService->connStatus;
@@ -24,9 +21,8 @@ Flight::route('GET /connection-check', function() {
  * )
  */
 Flight::route('GET /checks', function() {
-    $service = new PreglediService();
 
-    $all_checks = $service->getAll();
+    $all_checks = Flight::pregledi_service()->getAll();
     Flight::json($all_checks);
 });
 
@@ -49,9 +45,8 @@ Flight::route('GET /checks', function() {
  * )
  */
 Flight::route('GET /checks/@id', function($id) {
-    $service = new PreglediService();
 
-    $check = $service->getByID($id);
+    $check = Flight::pregledi_service()->getByID($id);
     Flight::json($check);
 });
 
@@ -84,8 +79,7 @@ Flight::route('GET /checks/@id', function($id) {
 Flight::route('POST /checks/add', function() {
     $data = Flight::request()->data;
 
-    $service = new PreglediService();
-    $new_check = $service->add($data);
+    $new_check = Flight::pregledi_service()->add($data);
 
     Flight::json(['message' => 'Pregled uspješno dodat.']);
 });
@@ -124,7 +118,7 @@ Flight::route('POST /checks/add', function() {
 Flight::route('PUT /checks/@id', function($id) {
     $data = Flight::request()->data;
 
-    $service = new PreglediService();
+    $service = Flight::pregledi_service();
     $service->update($id, $data);
 
     Flight::json(['message' => 'Pregled uspješno ažuriran.']);
@@ -149,7 +143,7 @@ Flight::route('PUT /checks/@id', function($id) {
  * )
  */
 Flight::route('DELETE /checks/@id', function($id) {
-    $service = new PreglediService();
+    $service = Flight::pregledi_service();
     $service->delete($id);
 
     Flight::json(['message' => 'Pregled uspješno izbrisan.']);
