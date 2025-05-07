@@ -1,5 +1,5 @@
 {
-    "name": "emanhrustemovic/web_programming",
+    "name": "emanhrustemovic/senior_design_project",
     "type": "project",
     "authors": [
         {
@@ -7,24 +7,8 @@
             "email": "eman.hrustemovic@stu.ibu.edu.ba"
         }
     ],
-    "require-dev": {
-        "pestphp/pest": "^3.8",
-        "fakerphp/faker": "^1.24"
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        },
-        "process-timeout": 0
-    },
-    "scripts": {
-        "serve": "@php -S localhost:8080 -t public"
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/",
-            "App\\": "."
-
-        }
-    }
+    "require": {
+        "flightphp/core": "^3.15",
+        "zircote/swagger-php": "^3.3"
+      }
 }

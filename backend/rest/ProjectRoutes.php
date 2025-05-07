@@ -21,7 +21,4 @@ Flight::route('GET /test/doctors', function() {
     echo '</pre>';
 });
 
-
-
-Flight::start();
 ?>
