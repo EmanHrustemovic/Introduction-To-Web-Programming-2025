@@ -15,6 +15,7 @@ use App\dao\KorisnikDao;
  * )
  */
 Flight::route('GET /user', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
     Flight::json(Flight::korisnik_service()->getAll());
 });
 
@@ -37,6 +38,7 @@ Flight::route('GET /user', function() {
  * )
  */
 Flight::route('GET /user/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
     $one = Flight::korisnik_service()->getById($id);
     Flight::json($one ?: [], $one ? 200 : 404);
 });
@@ -65,6 +67,8 @@ Flight::route('GET /user/@id', function($id) {
  * )
  */
 Flight::route('POST /user', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+
     $data = Flight::request()->data->getData();
     $created = Flight::korisnik_service()->create($data);
     Flight::json($created, 201);
@@ -100,6 +104,8 @@ Flight::route('POST /user', function() {
  * )
  */
 Flight::route('PUT /user/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+    
     $data = Flight::request()->data->getData();
     $updated = Flight::korisnik_service()->update($id, $data);
     Flight::json($updated ? ['message'=>'Ažurirano'] : ['message'=>'Ne postoji'], $updated ? 200 : 404);
@@ -124,6 +130,8 @@ Flight::route('PUT /user/@id', function($id) {
  * )
  */
 Flight::route('DELETE /user/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+    
     $deleted = Flight::korisnik_service()->delete($id);
     Flight::json($deleted ? ['message'=>'Korisnik izbrisan'] : ['message'=>'Ne postoji'], $deleted ? 200 : 404);
 });

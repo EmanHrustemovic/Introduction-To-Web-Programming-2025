@@ -2,8 +2,6 @@
 
 require_once __DIR__ . '/../dao/DoctorDao.php';
 require_once __DIR__ . '/../data/Roles.php';
-require_once __DIR__ . '/../middleware/DoctorMiddleware.php';
-require_once __DIR__ . '/../middleware/PatientMiddleware.php';
 
 use App\dao\DoctorDao;
 use App\middleware\DoctorMiddleware;
