@@ -15,6 +15,7 @@ use App\dao\PacijentDao;
  * )
  */
 Flight::route('GET /patient', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $patients = Flight::pacijent_service()->getAll();
     Flight::json($patients);
     Flight::json(['message' => 'Lista svih pacijenata je uspješno učitana.']);
@@ -43,11 +44,12 @@ Flight::route('GET /patient', function() {
  * )
  */
 Flight::route('GET /patient/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $patient = Flight::pacijent_service()->getById($id);
 
     if ($patient) {
         Flight::json($patient);
-        Flight::json(['message' => 'Pacijent pronađen po ID-u.']);
+        //Flight::json(['message' => 'Pacijent pronađen po ID-u.']);
     } else {
         Flight::json(['message' => 'Pacijent nije pronađen.'], 404);
     }
@@ -78,9 +80,10 @@ Flight::route('GET /patient/@id', function($id) {
  * )
  */
 Flight::route('POST /patient/add', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data->getData();
     $created = Flight::pacijent_service()->create($data);
-    Flight::json($created, 201);
+    Flight::json($created, 201);//Može li se profesore napraviti da pacijent po difoltu doda sam sebe ? 
 });
 
 /**
@@ -117,6 +120,7 @@ Flight::route('POST /patient/add', function() {
  * )
  */
 Flight::route('PUT /patient/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data->getData();
     $updated = Flight::pacijent_service()->update($id, $data);
     Flight::json($updated ? ['message'=>'Ažurirano'] : ['message'=>'Ne postoji'], $updated ? 200 : 404);
@@ -145,6 +149,7 @@ Flight::route('PUT /patient/@id', function($id) {
  * )
  */
 Flight::route('DELETE /patient/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $deleted = Flight::pacijent_service()->delete($id);
     if ($deleted) {
         Flight::json(['message'=>'Pacijent izbrisan']);

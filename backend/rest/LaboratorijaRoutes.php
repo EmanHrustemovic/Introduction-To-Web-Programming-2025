@@ -15,6 +15,7 @@ use App\dao\LaboratorijaDao;
  * )
  */
 Flight::route('GET /labs', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR , Roles::KORISNIK);
     $all = Flight::laboratorija_service()->getAll();
     Flight::json($all);
 });
@@ -38,6 +39,7 @@ Flight::route('GET /labs', function() {
  * )
  */
 Flight::route('GET /labs/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR, Roles::KORISNIK);
     $item = Flight::laboratorija_service()->getById($id);
     Flight::json($item);
 });
@@ -66,6 +68,8 @@ Flight::route('GET /labs/@id', function($id) {
  * )
  */
 Flight::route('POST /labs', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
+    
     $data = Flight::request()->data->getData();
     $created = Flight::laboratorija_service()->create($data);
 
@@ -110,6 +114,7 @@ Flight::route('POST /labs', function() {
  * )
  */
 Flight::route('PUT /labs/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data->getData();
     $updated = Flight::laboratorija_service()->update($id, $data);
 
@@ -143,6 +148,7 @@ Flight::route('PUT /labs/@id', function($id) {
  * )
  */
 Flight::route('DELETE /labs/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $deleted = Flight::laboratorija_service()->delete($id);
 
     if ($deleted) {

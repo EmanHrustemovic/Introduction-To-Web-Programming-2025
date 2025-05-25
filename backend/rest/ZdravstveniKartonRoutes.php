@@ -15,6 +15,7 @@ use App\dao\ZdravstveniKartonDao;
  * )
  */
 Flight::route('GET /cards', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR,Roles::KORISNIK);
 
     $all = Flight::kartoni_service()->getAll();
     Flight::json($all);
@@ -39,7 +40,7 @@ Flight::route('GET /cards', function() {
  * )
  */
 Flight::route('GET /cards/@id', function($id) {
-
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $one = Flight::kartoni_service()->getById($id);
     Flight::json($one);
 });
@@ -69,6 +70,7 @@ Flight::route('GET /cards/@id', function($id) {
  * )
  */
 Flight::route('POST /cards', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data->getData();
 
     $created = Flight::kartoni_service()->create($data);
@@ -106,6 +108,7 @@ Flight::route('POST /cards', function() {
  * )
  */
 Flight::route('PUT /cards/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data->getData();
     
     $updated = Flight::kartoni_service()->update($id, $data);
@@ -131,6 +134,7 @@ Flight::route('PUT /cards/@id', function($id) {
  * )
  */
 Flight::route('DELETE /cards/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
 
     $deleted = Flight::kartoni_service()->delete($id);
     if ($deleted) {
