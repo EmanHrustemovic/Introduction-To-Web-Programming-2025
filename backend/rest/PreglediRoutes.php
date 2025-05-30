@@ -21,7 +21,7 @@ Flight::route('GET /connection-check', function() {
  * )
  */
 Flight::route('GET /checks', function() {
-
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR, Roles::KORISNIK);
     $all_checks = Flight::pregledi_service()->getAll();
     Flight::json($all_checks);
 });
@@ -45,7 +45,7 @@ Flight::route('GET /checks', function() {
  * )
  */
 Flight::route('GET /checks/@id', function($id) {
-
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $check = Flight::pregledi_service()->getByID($id);
     Flight::json($check);
 });
@@ -77,6 +77,7 @@ Flight::route('GET /checks/@id', function($id) {
  * )
  */
 Flight::route('POST /checks/add', function() {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data;
 
     $new_check = Flight::pregledi_service()->add($data);
@@ -116,6 +117,7 @@ Flight::route('POST /checks/add', function() {
  * )
  */
 Flight::route('PUT /checks/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $data = Flight::request()->data;
 
     $service = Flight::pregledi_service();
@@ -143,6 +145,7 @@ Flight::route('PUT /checks/@id', function($id) {
  * )
  */
 Flight::route('DELETE /checks/@id', function($id) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $service = Flight::pregledi_service();
     $service->delete($id);
 

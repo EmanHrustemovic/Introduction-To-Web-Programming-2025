@@ -1,5 +1,10 @@
 <?php
 
+namespace App\services;
+
+use PDO;
+use PDOException;
+
 class Database {
    private static $host = 'localhost';
    private static $dbName = 'moje_zdravlje_a';
@@ -27,21 +32,10 @@ class Database {
        return self::$connection;
    }
 }
+class Config {
+    public static function JWT_SECRET() {
+        return 'aa68644b6dde3f13b99ef790ba7388956a70a24efdd07ea2161612b8a49db7fe';
+    }
+}
 
-/*
-
-//SETTING REPORTING
-ini_set('display_errors' ,1);
-ini_set('display_startup_errors',1);
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);  //Svi errori osim NOTICE ( used by prof Becir )
-
-//DATABASE Credential settings :
-
-define('DB_NAME', 'moje_zdravlje_a');
-define('DB_PORT' , 3306);
-define('DB_USER' , 'root');
-define('DB_PASSWORD','g3c9h.,1?0');
-define('DB_HOST','127.0.0.1');
-
-*/
 ?>

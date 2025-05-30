@@ -20,6 +20,7 @@ Flight::route('GET /connection-check' ,function(){
  * )
  */
 Flight::route('GET /therapy', function(){
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR, Roles::KORISNIK);
     $therapy_list = Flight::terapija_service()->getAll();  
     Flight::json($therapy_list);
 });
@@ -43,6 +44,7 @@ Flight::route('GET /therapy', function(){
  * )
  */
 Flight::route('GET /therapy/@id', function($id){
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR, Roles::KORISNIK);
     $therapy = Flight::terapija_service()->getByID($id);  
     Flight::json($therapy);
 });
@@ -74,7 +76,8 @@ Flight::route('GET /therapy/@id', function($id){
  * )
  */
 Flight::route('POST /therapy/add', function(){
-    $data = Flight::request()->data;
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
+    $data = Flight::request()->data->getData();
     $new_therapy = Flight::terapija_service()->add($data);  
     Flight::json(['message' => 'Terapija uspješno dodana.']);
 });
@@ -110,7 +113,8 @@ Flight::route('POST /therapy/add', function(){
  * )
  */
 Flight::route('PUT /therapy/@id',function($id){
-    $data = Flight::request()->data;
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
+    $data = Flight::request()->data->getData();
     $updated_therapy = Flight::terapija_service()->update($id, $data);  
     Flight::json(['message' => 'Terapija uspješno ažurirana.']);
 });
@@ -135,11 +139,11 @@ Flight::route('PUT /therapy/@id',function($id){
  * )
  */
 Flight::route('DELETE /therapy/@id',function($id){
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
     $delete_result = Flight::terapija_service()->delete($id);  
     if ($delete_result) {
         Flight::json(['message' => 'Terapija uspješno izbrisana iz baze.']);
     } else {
-        Flight::json(['message' => 'Terapija nije pronađena ili nije izbrisana.']);
+        Flight::json(['message' => 'Terapija nije pronađena.']);
     }
 });
-
