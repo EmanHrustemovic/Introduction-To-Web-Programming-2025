@@ -157,3 +157,30 @@ Flight::route('DELETE /patient/@id', function($id) {
         Flight::json(['message'=>'Ne postoji'], 404);
     }
 });
+
+
+/**
+ * @OA\Get(
+ *     path="/patient/by-jmbg/{jmbg}",
+ *     tags={"Pacijenti"},
+ *     summary="Dohvati pacijenta po JMBG",
+ *     @OA\Parameter(
+ *         name="jmbg",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="string", example="1234567890123")
+ *     ),
+ *     @OA\Response(response=200, description="Pacijent pronađen"),
+ *     @OA\Response(response=404, description="Pacijent nije pronađen")
+ * )
+ */
+Flight::route('GET /patient/by-jmbg/@jmbg', function($jmbg) {
+    Flight::auth_middleware()->authorizeRole(Roles::DOKTOR);
+    $patient = Flight::pacijent_service()->get_by_jmbg($jmbg);
+
+    if ($patient) {
+        Flight::json($patient);
+    } else {
+        Flight::json(['message' => 'Pacijent nije pronađen.'], 404);
+    }
+});
