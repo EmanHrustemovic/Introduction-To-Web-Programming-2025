@@ -48,4 +48,8 @@ class PacijentDao extends ProjectDao {
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
+
+    public function get_by_jmbg($jmbg) {
+        return $this->query_unique("SELECT * FROM pacijent_info WHERE JMBG = :jmbg", ["jmbg" => $jmbg]);
+    }
 }

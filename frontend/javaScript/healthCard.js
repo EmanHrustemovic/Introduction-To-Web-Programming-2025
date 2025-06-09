@@ -20,11 +20,13 @@ document.addEventListener('click', function (event) {
     if (event.target && event.target.id === 'uploadButton') {
         event.preventDefault();
 
+        /*
         if (validateFields()) {
             fileInput.click();
         } else {
             alert("Molimo Vas doktore da popunite sva polja!");
         }
+        */
     }
 });
 
@@ -33,12 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("click", function (event) {
         if (event.target && event.target.id === "uploadButton") {
             event.preventDefault();
-
+            
+            /*
             if (validateFields()) {
+                console.log(fileInput);
                 fileInput.click();
             } else {
                 alert("Molimo Vas doktore da popunite sva polja!");
             }
+            */
         }
     });
 });
@@ -82,8 +87,8 @@ function deleteRow(button){
 };
 
 function validateFields(){
-    console.log(document.querySelectorAll("input:not([type='file'])")); 
-    return [...document.querySelectorAll("input:not([type='file'])")].every(input => input.value.trim() !== "");
+    //console.log(document.querySelectorAll("input:not([type='file'])")); 
+    //return [...document.querySelectorAll("input:not([type='file'])")].every(input => input.value.trim() !== "");
 
 };
 
@@ -123,4 +128,3 @@ function addRow(button) {
       alert('Molimo popunite sva polja!');
     }
   }
-  

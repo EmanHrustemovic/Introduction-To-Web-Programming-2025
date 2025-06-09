@@ -1,82 +1,45 @@
-/* Dugmad za doktora  */
-const uploadButton = document.querySelector("#uploadButton");
-const fileInput = document.querySelector("#fileInput");
-const errorMessage = document.querySelector("#errorMessage");
-const tableBody = document.querySelector("#checkUps-for-doc");
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("uploadButton").addEventListener("click", function () {
+        const nazivPregleda = document.getElementById("checks").value;
+        const datumVrijeme = document.getElementById("meeting").value;
+        const status = document.getElementById("phase").value;
+        const opis = document.getElementById("description").value;
+        const rezultati = document.getElementById("result").value; 
+        const odjeljenjeId = parseInt(document.getElementById("hospital").value); 
+        const doktorId = parseInt(document.getElementById("doctor").value); 
+        const preporuka = document.getElementById("recommendation").value;
 
-/*POLJA U TABLICI KOJA DR POPUNJAVA */
-const checks = document.querySelector('#checks');
-const meeting = document.querySelector('#meeting');
-const phase = document.querySelector('#phase');
-const hospital = document.querySelector('#hospital');
-const doctor = document.querySelector('#doctor');
-const description = document.querySelector('#description');
-const result = document.querySelector('#result');
-const recommendation = document.querySelector('#recommendation');
+        const data = {
+            nazivPregleda: nazivPregleda,
+            datum_vrijeme: datumVrijeme,
+            status: status,
+            opis: opis,
+            rezultati: rezultati,
+            odjeljenje_id: odjeljenjeId,
+            doktor_id: doktorId,
+            preporuka: preporuka
+        };
 
-/* FUNCKIJE I IMPLEMENTACIJA LOGIKE */
-
-uploadButton.addEventListener('click', e=>{
-    e.preventDefault();
-
-    if(validateFields()){
-        fileInput.click();
-    }else{
-        alert("Molimo Vas dokotre da popunite sva polja !");
-    }
+        fetch("http://localhost/webProject/backend/checks/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Auth": "Bearer " + localStorage.getItem("token") 
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Neuspješan zahtjev");
+            }
+            return response.json();
+        })
+        .then(result => {
+            alert(result.message || "Pregled uspješno dodat!");
+        })
+        .catch(error => {
+            console.error("Greška:", error);
+            alert("Greška pri dodavanju pregleda.");
+        });
+    });
 });
-
-fileInput.addEventListener('change' , e=>{
-    e.preventDefault();
-    
-    if(fileInput.files.length>0){
-        addingRows();
-        deleteRow();
-    }
-});
-
-
-function addingRows(){
-    const useChecks = checks.value;
-    const useMeet = meeting.value;
-    const usePhase = phase.value;
-    const useHospital = hospital.value;
-    const yourDoctor = doctor.value;
-    const useDescription = description.value;
-    const useResult = result.value;
-    const useRecommendation= recommendation.value;
-
-    const file = fileInput.files[0].name;
-    
-    const row = document.createElement('tr');
-
-    row.innerHTML= `
-        <td>${useChecks}</td>
-        <td>${useMeet}</td>
-        <td>${usePhase}</td>
-        <td>${useHospital}</td>
-        <td>${yourDoctor}</td>
-        <td>${useDescription}</td>
-        <td>${useResult}</td>
-        <td>${useRecommendation}</td>
-        <td>${file}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Izbriši nalaz</button></td>
-    `;
-    tableBody.appendChild(row);
-
-};
-
-function deleteRow(button){
-    button.closest('tr').remove();
-
-};
-
-function validateFields(){
-    console.log(document.querySelectorAll("input:not([type='file'])")); 
-    return [...document.querySelectorAll("input:not([type='file'])")].every(input => input.value.trim() !== "");
-
-};
-
-function deleteFields(){
-    return document.querySelectorAll("input:not([type='file'])").forEach(input=>input.value = " ");
-};

@@ -22,6 +22,7 @@ function setReminder() {
     notifyUser();
     playSound();
     document.getElementById('message').textContent = `Podsjetnik postavljen za: ${reminderTime.toLocaleTimeString()}`;
+    alert("Vrijeme za terapiju! Ne zaboravite popiti terapiju!"); 
   }, timeDifference);
   
   document.getElementById('message').textContent = `Podsjetnik postavljen za: ${reminderTime.toLocaleTimeString()}`;

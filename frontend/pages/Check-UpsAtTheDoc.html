@@ -33,7 +33,67 @@
         </div>
     </header>
 
+    <!-- 
     <body>
+                  <h2>Dodaj novi pregled</h2>
+  <form id="pregledForm" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Naziv pregleda</label>
+      <input type="text" class="form-control" id="nazivPregleda" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Datum i vrijeme</label>
+      <input type="datetime-local" class="form-control" id="datumVrijeme" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Status</label>
+      <input type="text" class="form-control" id="status" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Opis</label>
+      <input type="text" class="form-control" id="opis">
+    </div>
+    <div class="col-12">
+      <label class="form-label">Rezultati</label>
+      <textarea class="form-control" id="rezultati" rows="2"></textarea>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Odjeljenje ID</label>
+      <input type="number" class="form-control" id="odjeljenjeId" required>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Doktor ID</label>
+      <input type="number" class="form-control" id="doktorId" required>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Preporuka</label>
+      <textarea class="form-control" id="preporuka" rows="2"></textarea>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Dodaj pregled</button>
+    </div>
+  </form>
+
+  <h2>Pregledi iz baze</h2>
+  <table class="table table-bordered table-striped mt-3">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Naziv</th>
+        <th>Datum i vrijeme</th>
+        <th>Status</th>
+        <th>Opis</th>
+        <th>Rezultati</th>
+        <th>Odjeljenje ID</th>
+        <th>Doktor ID</th>
+        <th>Preporuka</th>
+      </tr>
+    </thead>
+    <tbody id="preglediBody"></tbody>
+  </table>
+</div> -->
+
+<body>
         <h5 class="title">Pregledi</h5>
 
         <div class="container">
@@ -56,9 +116,9 @@
                         <tbody id="checkUps-for-doc">
                             <tr>
                                 <td><input id="checks" type="text" class="form-control" placeholder="Pregled"></td>
-                                <td><input  id="meeting" type="text" class="form-control" placeholder="Datum"></td>
-                                <td><input id="phase" type="datetime" class="form-control" placeholder="Status"></td>
-                                <td><input id="hospital" type="date" class="form-control" placeholder="Odjeljenje"></td>
+                                <td><input  id="meeting" type="datetime-local" class="form-control" placeholder="Datum"></td>
+                                <td><input id="phase" type="text" class="form-control" placeholder="Status"></td>
+                                <td><input id="hospital" type="text" class="form-control" placeholder="Odjeljenje"></td>
                                 <td><input  id="doctor" type="text" class="form-control" placeholder="Doktor"></td>
                                 <td><input id="description" type="text" class="form-control" placeholder="Opis"></td>
                                 <td><input id="result" type="file" class="form-control" placeholder="Rezultat"></td>
