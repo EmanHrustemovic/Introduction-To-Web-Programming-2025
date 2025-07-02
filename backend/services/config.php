@@ -13,20 +13,21 @@ class Database {
    private static $password = 'g3c9h.,1?0';
    private static $connection = null;
    */
+  private static $connection = null;
   public static function DB_NAME() {
-    return Config::get_env("DB_NAME", "university");
+    return self::get_env("DB_NAME", "moje_zdravlje_a");
 }
    public static function DB_PORT() {
-       return Config::get_env("DB_PORT", 3306);
+       return self::get_env("DB_PORT", 3306);
    }
    public static function DB_USER() {
-       return Config::get_env("DB_USER", 'root');
+       return self::get_env("DB_USER", 'root');
    }
    public static function DB_PASSWORD() {
-       return Config::get_env("DB_PASSWORD", '');
+       return self::get_env("DB_PASSWORD", '');
    }
    public static function DB_HOST() {
-       return Config::get_env("DB_HOST", '127.0.0.1');
+       return self::get_env("DB_HOST", '127.0.0.1');
    }
 
 

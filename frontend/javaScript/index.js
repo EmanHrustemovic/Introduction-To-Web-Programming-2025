@@ -1,6 +1,6 @@
 const routes = {
-    homePage: "mainPage.html",
     login: "login.html",
+    homePage: "mainPage.html",
     registration: "registration.html",
     password: "password.html",
     healthCard: "healthCard.html",
@@ -46,7 +46,7 @@ const routes = {
     loadPage(page);
   });
   
-  const defaultPage = "homePage";
+  const defaultPage = "login";
   window.addEventListener("load", () => {
     const page = window.location.hash.substring(1) || defaultPage;
   
